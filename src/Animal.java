@@ -1,4 +1,5 @@
 public abstract class Animal {
+
     private static Type type;
     public abstract void canEat();
 
