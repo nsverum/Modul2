@@ -4,17 +4,22 @@ import java.util.List;
 import java.util.Map;
 
 public class Service {
-    Location[][] locations;
-    Map<Type, List<Animal>> animal;
-    public Service(Location[][] locations) {
-        for (int i = 0; i < 100; i++) {
-            for (int j = 0; j < 20; j++) {
-                locations[i][j] = new Location(1000, animal);
-                System.out.println(locations[i][j]);
+
+    private final Location[][] map;
+    public Service(int width, int height) {
+        this.map = new Location[height][width];
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                map[i][j] = new Location(0, null);
             }
-
         }
+    }
+    public Location getLocation(int x, int y) {
+        return map[y][x];
+    }
 
+    public void setLocation(int x, int y, Location location) {
+        map[y][x] = location;
     }
 }
 

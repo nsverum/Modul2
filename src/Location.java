@@ -1,34 +1,29 @@
 import java.lang.reflect.Type;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 public class Location {
+    int plantVolume;
+    int animalNumber;
+    Map<Type, List<Animal>> animal;
     public Location(int plantVolume, Map<Type, List<Animal>> animal) {
         this.plantVolume = plantVolume;
         this.animal = animal;
     }
-
-    int plantVolume;
-    int animalNumber;
-    Map<Type, List<Animal>> animal;
-
-
-    public void addAnimal() {
-        Animal animal = new Wolf();
-        plantVolume++;
+    public void addAnimal(List<Animal> animalLis) {
+        git commit -m "опис коміту"
     }
-
     public void grousePlant() {
-        Plant plant = new Plant();
-        plantVolume++;
+        plantVolume = plantVolume+20;
     }
-    private static void populateAnimals() {
+    private void populateAnimals() {
         Random rand = new Random();
         int numAnimals = rand.nextInt(10) + 1;
         // рандомна кількість тварин
-        Map<Type, List<Animal>> animal;
+        Map<Type, List<Animal>> animalMap = new HashMap<>();
+        animalMap.put(Type.WOLF, new ArrayList<>());
+        animalMap.put(Type.BEAR, new ArrayList<>());
+        Location location = new Location(numAnimals, animalMap);
+        List<Animal> herbivores = animalMap.get(Type.WOLF);
     }
 
 }
