@@ -10,7 +10,7 @@ public class Location {
         this.animal = animal;
     }
     public void addAnimal(List<Animal> animalLis) {
-        git commit -m "опис коміту"
+
     }
     public void grousePlant() {
         plantVolume = plantVolume+20;

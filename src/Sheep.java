@@ -1,6 +1,11 @@
-public class Sheep extends Animal implements Herbivore{
+public class Sheep extends Animal {
     @Override
     public void canEat() {
+
+    }
+
+    @Override
+    public void canReproduce() {
 
     }
 
