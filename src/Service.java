@@ -1,4 +1,3 @@
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,10 +6,10 @@ public class Service {
 
     private final Location[][] map;
     public Service(int width, int height) {
-        this.map = new Location[height][width];
+        this.map = new Location[100][20];
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                map[i][j] = new Location(0, null);
+                map[i][j] = new Location();
             }
         }
     }

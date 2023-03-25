@@ -1,13 +1,12 @@
-import java.lang.reflect.Type;
+
 import java.util.*;
 
 public class Location {
     int plantVolume;
-    int animalNumber;
-    Map<Type, List<Animal>> animal;
-    public Location(int plantVolume, Map<Type, List<Animal>> animal) {
-        this.plantVolume = plantVolume;
-        this.animal = animal;
+    Map<Type, List<Animal>> animalMap;
+    public Location() {
+
+      FillStartDataForLocation.fillStartDataForLocation(this);
     }
     public void addAnimal(List<Animal> animalLis) {
 
@@ -16,14 +15,21 @@ public class Location {
         plantVolume = plantVolume+20;
     }
     private void populateAnimals() {
-        Random rand = new Random();
-        int numAnimals = rand.nextInt(10) + 1;
-        // рандомна кількість тварин
-        Map<Type, List<Animal>> animalMap = new HashMap<>();
-        animalMap.put(Type.WOLF, new ArrayList<>());
-        animalMap.put(Type.BEAR, new ArrayList<>());
-        Location location = new Location(numAnimals, animalMap);
-        List<Animal> herbivores = animalMap.get(Type.WOLF);
+
+    }
+    public int getPlantVolume() {
+        return plantVolume;
     }
 
+    public void setPlantVolume(int plantVolume) {
+        this.plantVolume = plantVolume;
+    }
+
+    public Map<Type, List<Animal>> getAnimalMap() {
+        return animalMap;
+    }
+
+    public void setAnimalMap(Map<Type, List<Animal>> animalMap) {
+        this.animalMap = animalMap;
+    }
 }

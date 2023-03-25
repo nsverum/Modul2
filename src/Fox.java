@@ -5,6 +5,11 @@ public class Fox extends  Animal{
     }
 
     @Override
+    public void canReproduce() {
+
+    }
+
+    @Override
     public void canDie() {
 
     }
