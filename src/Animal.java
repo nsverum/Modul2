@@ -1,4 +1,3 @@
-import java.lang.reflect.Type;
 import java.util.List;
 
 public abstract class Animal {
@@ -65,5 +64,13 @@ public abstract class Animal {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public List<Animal> getAnimalList() {
+        return animalList;
+    }
+
+    public void setAnimalList(List<Animal> animalList) {
+        this.animalList = animalList;
     }
 }

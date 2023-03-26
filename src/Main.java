@@ -5,6 +5,9 @@ import java.util.concurrent.TimeUnit;
 
 public class Main {
     public static void main(String[] args) {
+     Location f = new Location();
+        System.out.println(f.plantVolume);
+
 
 
     }
