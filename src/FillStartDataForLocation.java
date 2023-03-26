@@ -6,9 +6,7 @@ public class FillStartDataForLocation {
     public static void fillStartDataForLocation(Location location) {
         Random random = new Random();
         location.setPlantVolume(random.nextInt(11));
-        Map<Type, List<Animal>> animalMap;
-        animalMap = location.getAnimalMap();
-
+        Map<Type, List<Animal>> animalMap = new HashMap<>();
         for (int i = 0; i < 10; i++) {
             Type type = Type.values()[ThreadLocalRandom.current().nextInt(0, 4)]; //  випадковий тип з enum Type
             List<Animal> animalList = new ArrayList<>(); //Створюємо новий список для кожного типу тварин

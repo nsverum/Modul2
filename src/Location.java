@@ -14,9 +14,7 @@ public class Location {
     public void grousePlant() {
         plantVolume = plantVolume+20;
     }
-    private void populateAnimals() {
 
-    }
     public int getPlantVolume() {
         return plantVolume;
     }
@@ -32,4 +30,13 @@ public class Location {
     public void setAnimalMap(Map<Type, List<Animal>> animalMap) {
         this.animalMap = animalMap;
     }
+
+    @Override
+    public String toString() {
+        return
+                "Кількість рослин =" + plantVolume +
+                "\nУ цій локації такі тварини =" + animalMap +
+                '}';
+    }
+
 }
