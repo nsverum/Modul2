@@ -2,7 +2,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum Type {
-    WOLF (50,8,50,3,30,'^',
+    WOLF (50,8,50,3,30,'W',
             new HashMap<Type, Integer>(){{ put(Type.WOLF, 0); }{ put(Type.FOX, 0); }{ put(Type.SHEEP, 70); }{ put(Type.HORSE, 10); }{ put(Type.BEAR, 0); }}),
     FOX(50,8,8,2,30,'F',
             new HashMap<Type, Integer>(){{ put(Type.WOLF, 0); }{ put(Type.FOX, 0); }{ put(Type.SHEEP, 0); }{ put(Type.HORSE, 0); { put(Type.BEAR, 0); }}}),
@@ -37,7 +37,6 @@ public enum Type {
     public char picture() {
         return picture;
     }
-
 
     public int getEnergy() {
         return energy;

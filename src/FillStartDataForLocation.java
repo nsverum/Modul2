@@ -20,7 +20,6 @@ public class FillStartDataForLocation {
                     case FOX -> new Fox();
                 };
 
-
              // Додаємо новий об'єкт-тварину до списку для поточного типу тварин
                 animalList.add(newAnimal);
             }
@@ -28,6 +27,8 @@ public class FillStartDataForLocation {
             // Додаємо список тварин до animalMap, використовуючи тип тварин, який вже визначений
             animalMap.put(type, animalList);
             location.setAnimalMap(animalMap);
+
         }
     }
+
 }

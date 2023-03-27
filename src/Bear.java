@@ -1,4 +1,5 @@
-public class Bear extends Animal{
+@Predators
+public class Bear extends Animal {
     @Override
     public void canEat() {
 
