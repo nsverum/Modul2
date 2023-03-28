@@ -1,6 +1,10 @@
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.HashMap;
 import java.util.Map;
-
+@Getter
+//@Setter
 public enum Type {
     WOLF (50,8,50,3,30,'W',
             new HashMap<Type, Integer>(){{ put(Type.WOLF, 0); }{ put(Type.FOX, 0); }{ put(Type.SHEEP, 70); }{ put(Type.HORSE, 10); }{ put(Type.BEAR, 0); }}),
@@ -34,49 +38,7 @@ public enum Type {
         }
 
 
-    public char picture() {
-        return picture;
-    }
 
-    public int getEnergy() {
-        return energy;
-    }
-
-    public void setEnergy(int energy) {
-        this.energy = energy;
-    }
-
-    public int getMaxEnergy() {
-        return maxEnergy;
-    }
-
-    public void setMaxEnergy(int maxEnergy) {
-        this.maxEnergy = maxEnergy;
-    }
-
-    public int getWeight() {
-        return weight;
-    }
-
-    public void setWeight(int weight) {
-        this.weight = weight;
-    }
-
-    public int getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(int speed) {
-        this.speed = speed;
-    }
-
-    public int getMaxPerCell() {
-        return maxPerCell;
-    }
-
-    public void setMaxPerCell(int maxPerCell) {
-        this.maxPerCell = maxPerCell;
-    }
 
 
 }

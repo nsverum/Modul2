@@ -1,22 +1,15 @@
+import java.util.List;
+import java.util.Map;
+
 @Herbivore
 public class Horse extends Animal {
-    @Override
-    public void canEat() {
-
-    }
-
-    @Override
-    public void canReproduce() {
-
-    }
 
     @Override
     public void canDie() {
 
-    }
-
-    @Override
-    public void canMove() {
 
     }
+
+
+
 }

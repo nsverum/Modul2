@@ -2,36 +2,57 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Map;
 
-
-
+@Getter
+@Setter
 public abstract class Animal {
-    private int x; // координаты животного на острове
+    private int x;
     private int y;
     private static Type type;
     private int number;
+    private int energy = 50;
+
     private boolean isAlive;
     private String gender; // стать
     List<Animal> animalList;
 
-    public  void canEat() {
-        System.out.println("Я поїло");
-    }
-    public abstract void canReproduce();
-    // Якщо тварини одного виду, і кількість тварин не більше maxPerCell, - з'являється дитинка
-
-    public abstract void canDie();
-    public void canMove(){
-
-    }
-    public void feedAnimal(Animal animal) {
+    public void canEat(Animal animal) {
         if (animal.getClass().isAnnotationPresent(Predators.class)) {
             System.out.println("З'їли травоядну тварину");// харчування для хижака
-        } else if (animal.getClass().isAnnotationPresent(Herbivore.class)) {
+
+           } else if (animal.getClass().isAnnotationPresent(Herbivore.class)) {
             System.out.println("З'їли траву");// харчування для травоїдної тварини
         } else {
             System.out.println("З'їли щось інше");// невідомий тип тварини
+
         }
+    }
+    public  void canReproduce(){
+
+    }
+    // Якщо тварини одного виду, і кількість тварин не більше maxPerCell, - з'являється дитинка
+
+    public void moveTo(int newX, int newY) {
+
+        this.x = newX;
+        this.y = newY;
+        this.energy--; // расход энергии на перемещение
+        if (this.energy <= 0) {
+            this.isAlive = false; // животное умирает от голода
+        }
+    }
+
+    public static Type getType() {
+        return type;
+    }
+
+    public int getEnergy() {
+        return energy;
+    }
+
+    public void setEnergy(int energy) {
+        this.energy = energy;
     }
 
     public int getX() {
@@ -50,43 +71,30 @@ public abstract class Animal {
         this.y = y;
     }
 
-    public static Type getType() {
-        return type;
-    }
-
     public static void setType(Type type) {
         Animal.type = type;
     }
 
-    public int getNumber() {
-        return number;
+    public boolean canAttack(Animal otherAnimal) {
+
+        return false;
     }
 
-    public void setNumber(int number) {
-        this.number = number;
+    public void attack(Animal otherAnimal) {
     }
 
-    public boolean isAlive() {
-        return isAlive;
-    }
+    public abstract void canDie();
 
-    public void setAlive(boolean alive) {
-        isAlive = alive;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public List<Animal> getAnimalList() {
-        return animalList;
-    }
-
-    public void setAnimalList(List<Animal> animalList) {
-        this.animalList = animalList;
+    @Override
+    public String toString() {
+        return "Animal{" +
+                "x=" + x +
+                ", y=" + y +
+                ", number=" + number +
+                ", energy=" + energy +
+                ", isAlive=" + isAlive +
+                ", gender='" + gender + '\'' +
+                ", animalList=" + animalList +
+                '}';
     }
 }

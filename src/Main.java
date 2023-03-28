@@ -4,9 +4,12 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class Main {
-    public static void main(String[] args) {
-        //Location location = new Location();
-        Service service = new Service(100, 20);
-        service.iterate();
+    public static void main(String[] args) throws InterruptedException {
+
+        Service service = new Service(100,20);
+        service.moveAnimals();
+
+        //Service service = new Service(100, 20);
+       // service.iterate();
     }
 }
