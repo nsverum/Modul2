@@ -17,7 +17,6 @@ public class Location {
     ConcurrentHashMap<Type, CopyOnWriteArrayList<Animal>> animalMap;
 
     public Location() {
-
       FillStartDataForLocation.fillStartDataForLocation(this);
     }
 
@@ -25,9 +24,6 @@ public class Location {
     public void grousePlant() {
         plantVolume = plantVolume+20;
     }
-
-
-
 
 
     @Override
@@ -47,7 +43,7 @@ public class Location {
 
    public void addAnimal(Map<Type, CopyOnWriteArrayList<Animal>> animalMap) {
         for (Map.Entry<Type, CopyOnWriteArrayList<Animal>> entry : animalMap.entrySet()) {
-            Animal newAnimal = switch (entry.getKey()) { // Створюємо новий об'єкт-тварину відповідно до типу, який вже визначений
+            Animal newAnimal = switch (entry.getKey()) {
                 case WOLF -> new Wolf();
                 case SHEEP -> new Sheep();
                 case HORSE -> new Horse();
@@ -60,29 +56,6 @@ public class Location {
             }
         }
     }
-    public  void remove(){
-
-    }
-    public void die(Map<Type, List<Animal>> animalMap) {
-        for (Map.Entry<Type, List<Animal>> entry : animalMap.entrySet()) {
-            Animal newAnimal = switch (entry.getKey()) { // Створюємо новий об'єкт-тварину відповідно до типу, який вже визначений
-                case WOLF -> new Wolf();
-                case SHEEP -> new Sheep();
-                case HORSE -> new Horse();
-                case BEAR -> new Bear();
-                case FOX -> new Fox();
-            };
-            if (entry.getValue() != null) {
-                entry.getValue().remove(newAnimal);
-                System.out.println("Тварина померла");
-            }
-        }
-    }
-
-    public void checkIsAlive(Type type) {
-
-    }
-
     public boolean isFree() {
         return true;
     }
