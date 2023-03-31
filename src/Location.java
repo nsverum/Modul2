@@ -44,19 +44,28 @@ public class Location {
    public void addAnimal(Map<Type, CopyOnWriteArrayList<Animal>> animalMap) {
         for (Map.Entry<Type, CopyOnWriteArrayList<Animal>> entry : animalMap.entrySet()) {
             Animal newAnimal = switch (entry.getKey()) {
-                case WOLF -> new Wolf();
-                case SHEEP -> new Sheep();
-                case HORSE -> new Horse();
-                case BEAR -> new Bear();
-                case FOX -> new Fox();
+                case WOLF -> new Wolf(getX(), getY(), numAnimals, 50, true, "?");
+                case SHEEP -> new Sheep(getX(), getY(), numAnimals, 50, true, "?");
+                case HORSE -> new Horse(getX(), getY(), numAnimals, 50, true, "?");
+                case BEAR -> new Bear(getX(), getY(), numAnimals, 50, true, "?");
+                case FOX -> new Fox(getX(), getY(), numAnimals, 50, true, "?");
             };
             if (entry.getValue() != null) {
                 entry.getValue().add(newAnimal);
-                System.out.println("Тварина добавлена");
             }
         }
     }
     public boolean isFree() {
         return true;
+    }
+
+    public void removeAnimal(ConcurrentHashMap<Type, CopyOnWriteArrayList<Animal>> animal) {
+        for (Map.Entry<Type, CopyOnWriteArrayList<Animal>> entry : animal.entrySet()) {
+            List<Animal> animalList = entry.getValue();
+            for (Animal previousLocationAnimal : animalList) {
+                animalList.remove(previousLocationAnimal);
+            }
+        }
+
     }
 }

@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -16,15 +17,27 @@ public abstract class Animal {
     private int y;
     private static Type type;
     private int number;
-    private int energy = 50;
+    private int energy;
 
     private boolean isAlive;
     private String gender;
-    List<Animal> animalList;
 
+    public Animal(int x, int y, int number, int energy, boolean isAlive, String gender) {
+        this.x = x;
+        this.y = y;
+        this.number = number;
+        this.energy = energy;
+        this.isAlive = isAlive;
+        this.gender = gender;
+
+    }
 
     public void eat(CopyOnWriteArrayList<Animal> allAnimals, Animal animal) {
-        System.out.println(animal);
+        System.out.println();if (animal.getClass().isAnnotationPresent(Predators.class)) {
+            System.out.println("Помер від голоду");
+        } else if (animal.getClass().isAnnotationPresent(Herbivore.class)) {
+            System.out.println("Помер від голоду або його з'їли");
+        }
 
        /* List<Animal> predators = new ArrayList<>();
         List<Animal> herbivores = Collections.synchronizedList(new ArrayList<>());
@@ -71,42 +84,22 @@ public abstract class Animal {
 
         return true;
     }
-    public  void reproduce(){
-        List<Animal> animals = ... // список всіх тварин
-
-// фільтруємо список тварин за їх типом
-        Map<Type, List<Animal>> animalsByType = animals.stream()
-                .collect(Collectors.groupingBy(Animal::getType));
-
-// розбиваємо тварин по парам і запускаємо метод breed() для кожної пари
-        List<Animal> pairedAnimals = new ArrayList<>();
-        for (List<Animal> animalList : animalsByType.values()) {
-            int size = animalList.size();
-            for (int i = 0; i < size; i += 2) {
-                Animal animal1 = animalList.get(i);
-                Animal animal2 = (i + 1 < size) ? animalList.get(i + 1) : null;
-                if (animal1 != null && animal2 != null) {
-                    pairedAnimals.add(animal1);
-                    pairedAnimals.add(animal2);
-                    breed(animal1, animal2);
-                }
-            }
+    public  void reproduce(Map<Type, List<Animal>> animals){
+        for (Map.Entry<Type, List<Animal>> entry : animals.entrySet()) {
+            List<Animal> animalList =  entry.getValue();
         }
 
-// запускаємо метод breed() для тварин, що залишилися
-        for (int i = 0; i < pairedAnimals.size(); i += 2) {
-            Animal animal1 = pairedAnimals.get(i);
-            Animal animal2 = pairedAnimals.get(i + 1);
-            breed(animal1, animal2);
-        }
     }
-    public void moveTo(int newX, int newY) {
+
+    public void moveTo(int newX, int newY, Animal animal) {
         this.x = newX;
         this.y = newY;
         this.energy--;
         if (this.energy <= 0) {
             this.isAlive = false;
         }
+        System.out.println(animal);
+        System.out.println(getX() +" "+ getY());
     }
     public  void canDie(Animal animal){
         if (animal.getClass().isAnnotationPresent(Predators.class)) {
@@ -115,7 +108,7 @@ public abstract class Animal {
             System.out.println("Помер від голоду або його з'їли");
         }
     }
-    public static Type getType() {
+    public Type getType() {
         return type;
     }
     public int getEnergy() {
@@ -141,7 +134,7 @@ public abstract class Animal {
     }
 
     public boolean isAlive() {
-        return isAlive;
+        return (type.getEnergy() == 0);
     }
 
     public void setAlive(boolean alive) {
@@ -150,14 +143,9 @@ public abstract class Animal {
 
     @Override
     public String toString() {
-        return "Animal{" +
-                "x=" + x +
+        return "Animal{" + getClass().toString() +
+                ": x=" + x +
                 ", y=" + y +
-                ", number=" + number +
-                ", energy=" + energy +
-                ", isAlive=" + isAlive +
-                ", gender='" + gender + '\'' +
-                ", animalList=" + animalList +
                 '}';
     }
 }

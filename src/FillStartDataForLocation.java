@@ -7,29 +7,27 @@ import java.util.concurrent.ThreadLocalRandom;
 public class FillStartDataForLocation {
     public static void fillStartDataForLocation(Location location) {
         Random random = new Random();
-        location.setPlantVolume(random.nextInt(11));
+        location.setPlantVolume(random.nextInt(200));
         location.setX(random.nextInt(99));
         location.setY(random.nextInt(19));
         ConcurrentHashMap<Type, CopyOnWriteArrayList<Animal>> animalMap = new ConcurrentHashMap<>();
 
         for (int i = 0; i < 10; i++) {
-            Type type = Type.values()[ThreadLocalRandom.current().nextInt(0, 4)]; //  випадковий тип з enum Type
-            CopyOnWriteArrayList<Animal> animalList = new CopyOnWriteArrayList<>(); //Створюємо новий список для кожного типу тварин
+            Type type = Type.values()[ThreadLocalRandom.current().nextInt(0, 4)];
+            CopyOnWriteArrayList<Animal> animalList = new CopyOnWriteArrayList<>();
             int numAnimals = random.nextInt(type.getMaxPerCell());
             for (int j = 0; j < numAnimals; j++) {
-                Animal newAnimal = switch (type) { // Створюємо новий об'єкт-тварину відповідно до типу, який вже визначений
-                    case WOLF -> new Wolf();
-                    case SHEEP -> new Sheep();
-                    case HORSE -> new Horse();
-                    case BEAR -> new Bear();
-                    case FOX -> new Fox();
+                Animal newAnimal = switch (type) {
+                    case WOLF -> new Wolf(location.getX(), location.getY(), numAnimals, 50, true, "?");
+                    case SHEEP -> new Sheep(location.getX(), location.getY(), numAnimals, 50, true, "?");
+                    case HORSE -> new Horse(location.getX(), location.getY(), numAnimals, 50, true, "?");
+                    case BEAR -> new Bear(location.getX(), location.getY(), numAnimals, 50, true, "?");
+                    case FOX -> new Fox(location.getX(), location.getY(), numAnimals, 50, true, "?");
                 };
 
-                animalList.add(newAnimal);   // Додаємо новий об'єкт-тварину до списку для поточного типу тварин
-
+                animalList.add(newAnimal);
             }
 
-            // Додаємо список тварин до animalMap, використовуючи тип тварин, який вже визначений
             animalMap.put(type, animalList);
             location.setAnimalMap(animalMap);
 
