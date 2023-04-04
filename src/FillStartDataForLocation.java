@@ -18,11 +18,11 @@ public class FillStartDataForLocation {
             int numAnimals = random.nextInt(type.getMaxPerCell());
             for (int j = 0; j < numAnimals; j++) {
                 Animal newAnimal = switch (type) {
-                    case WOLF -> new Wolf(location.getX(), location.getY(), numAnimals, 50, true, "?");
-                    case SHEEP -> new Sheep(location.getX(), location.getY(), numAnimals, 50, true, "?");
-                    case HORSE -> new Horse(location.getX(), location.getY(), numAnimals, 50, true, "?");
-                    case BEAR -> new Bear(location.getX(), location.getY(), numAnimals, 50, true, "?");
-                    case FOX -> new Fox(location.getX(), location.getY(), numAnimals, 50, true, "?");
+                    case WOLF -> new Wolf(location.getX(), location.getY(), numAnimals, 5, true, "?",Type.WOLF);
+                    case SHEEP -> new Sheep(location.getX(), location.getY(), numAnimals, 5, true, "?",Type.SHEEP);
+                    case HORSE -> new Horse(location.getX(), location.getY(), numAnimals, 5, true, "?", Type.HORSE);
+                    case BEAR -> new Bear(location.getX(), location.getY(), numAnimals, 5, true, "?",Type.BEAR);
+                    case FOX -> new Fox(location.getX(), location.getY(), numAnimals, 5, true, "?",Type.FOX);
                 };
 
                 animalList.add(newAnimal);

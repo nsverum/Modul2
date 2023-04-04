@@ -7,39 +7,29 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.Collectors;
 
 @Getter
 @Setter
 public abstract class Animal {
     private int x;
     private int y;
-    private static Type type;
+    private  Type type;
     private int number;
     private int energy;
-
     private boolean isAlive;
     private String gender;
 
-    public Animal(int x, int y, int number, int energy, boolean isAlive, String gender) {
+    public Animal(int x, int y, int number, int energy, boolean isAlive, String gender, Type type) {
         this.x = x;
         this.y = y;
         this.number = number;
         this.energy = energy;
         this.isAlive = isAlive;
         this.gender = gender;
-
+        this.type= type;
     }
-
-    public void eat(CopyOnWriteArrayList<Animal> allAnimals, Animal animal) {
-        System.out.println();if (animal.getClass().isAnnotationPresent(Predators.class)) {
-            System.out.println("Помер від голоду");
-        } else if (animal.getClass().isAnnotationPresent(Herbivore.class)) {
-            System.out.println("Помер від голоду або його з'їли");
-        }
-
-       /* List<Animal> predators = new ArrayList<>();
+    public static void eat(CopyOnWriteArrayList<Animal> allAnimals, Animal animal) {
+        List<Animal> predators = new ArrayList<>();
         List<Animal> herbivores = Collections.synchronizedList(new ArrayList<>());
         for (Animal otherAnimal : allAnimals){
             if (otherAnimal == animal){
@@ -52,45 +42,48 @@ public abstract class Animal {
             }
         }
         for (Animal predator : predators) {
-            int maxChance = Collections.max(type.ration.values());
+            int maxChance = Collections.max(predator.getType().getRation().values());
             Type typeWithMaxFoodValue = null;
-            for (Type key : type.ration.keySet()) {
-                if (type.ration.get(key) == maxChance) {
+            for (Type key : predator.getType().getRation().keySet()) {
+
+                if (predator.getType().getRation().get(key) == maxChance) {
                     typeWithMaxFoodValue = key;
                     break;
                 }
-            }
-            if (predator.isHungry()) {
+            }   if (predator.isHungry(predator)) {
                 Animal herbivoreToEat = null;
                 int maxFoodValue = -1;
                 for (Animal herbivore : herbivores) {
                     int foodValue = herbivore.getType().getRation().get(typeWithMaxFoodValue);
-                    if (foodValue > maxFoodValue) {
-                        maxFoodValue = foodValue;
-                        herbivoreToEat = herbivore;
+                    if (foodValue >=  maxChance) {
+                       herbivoreToEat = herbivore;
                     }
                 }
                 if (herbivoreToEat != null) {
                     herbivores.remove(herbivoreToEat);
                     allAnimals.remove(herbivoreToEat);
-
+                }
+                for (Animal herbivore : herbivores){
+                    if (predator.isHungry(predator)) {
+                        herbivore.eatPlants();
+                    }
                 }
             }
-        }*/
+        }
     }
 
+    private void eatPlants() {
+        System.out.println("Animal eats");
+    }
 
-    private boolean isHungry() {
-
-        return true;
+    boolean isHungry(Animal animal) {
+        return animal.getEnergy() < animal.getType().getMaxEnergy();
     }
     public  void reproduce(Map<Type, List<Animal>> animals){
         for (Map.Entry<Type, List<Animal>> entry : animals.entrySet()) {
             List<Animal> animalList =  entry.getValue();
         }
-
     }
-
     public void moveTo(int newX, int newY, Animal animal) {
         this.x = newX;
         this.y = newY;
@@ -131,10 +124,6 @@ public abstract class Animal {
     }
     public static void setType(Type type) {
         Animal.type = type;
-    }
-
-    public boolean isAlive() {
-        return (type.getEnergy() == 0);
     }
 
     public void setAlive(boolean alive) {

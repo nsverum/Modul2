@@ -20,12 +20,6 @@ public class Location {
       FillStartDataForLocation.fillStartDataForLocation(this);
     }
 
-
-    public void grousePlant() {
-        plantVolume = plantVolume+20;
-    }
-
-
     @Override
    public String toString() {
        StringBuilder sb = new StringBuilder();
@@ -43,29 +37,27 @@ public class Location {
 
    public void addAnimal(Map<Type, CopyOnWriteArrayList<Animal>> animalMap) {
         for (Map.Entry<Type, CopyOnWriteArrayList<Animal>> entry : animalMap.entrySet()) {
+            List<Animal> animalList = entry.getValue();
             Animal newAnimal = switch (entry.getKey()) {
-                case WOLF -> new Wolf(getX(), getY(), numAnimals, 50, true, "?");
-                case SHEEP -> new Sheep(getX(), getY(), numAnimals, 50, true, "?");
-                case HORSE -> new Horse(getX(), getY(), numAnimals, 50, true, "?");
-                case BEAR -> new Bear(getX(), getY(), numAnimals, 50, true, "?");
-                case FOX -> new Fox(getX(), getY(), numAnimals, 50, true, "?");
+                case WOLF -> new Wolf(getX(), getY(), numAnimals, 50, true, "?", Type.WOLF);
+                case SHEEP -> new Sheep(getX(), getY(), numAnimals, 50, true, "?", Type.SHEEP);
+                case HORSE -> new Horse(getX(), getY(), numAnimals, 50, true, "?", Type.HORSE);
+                case BEAR -> new Bear(getX(), getY(), numAnimals, 50, true, "?",Type.SHEEP);
+                case FOX -> new Fox(getX(), getY(), numAnimals, 50, true, "?",Type.FOX);
             };
-            if (entry.getValue() != null) {
+            if (animalList != null){
                 entry.getValue().add(newAnimal);
             }
         }
     }
-    public boolean isFree() {
-        return true;
-    }
-
-    public void removeAnimal(ConcurrentHashMap<Type, CopyOnWriteArrayList<Animal>> animal) {
-        for (Map.Entry<Type, CopyOnWriteArrayList<Animal>> entry : animal.entrySet()) {
+    public boolean isFree(Map<Type, CopyOnWriteArrayList<Animal>> animalMap) {
+        for (Map.Entry<Type, CopyOnWriteArrayList<Animal>> entry : animalMap.entrySet()) {
+            Type animalType = entry.getKey();
             List<Animal> animalList = entry.getValue();
-            for (Animal previousLocationAnimal : animalList) {
-                animalList.remove(previousLocationAnimal);
-            }
-        }
 
+            return animalList.size() <= animalType.getMaxPerCell();
+        }
+        return false;
     }
+
 }

@@ -8,23 +8,20 @@ public class Service {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 Location currentLocation = new Location();
-                currentLocation.setX(i);
-                currentLocation.setY(j);
                 map[i][j] = currentLocation;
-
             }
         }
     }
     public  void iterate() throws InterruptedException {
         for (int i = 0; i < 100; i++) {
             for (int j = 0; j < 20; j++) {
-                Location currentLocation = map[i][j];
+               Location currentLocation = map[i][j];
                 for (Map.Entry<Type, CopyOnWriteArrayList<Animal>> entry : currentLocation.animalMap.entrySet()) {
                     CopyOnWriteArrayList<Animal> animalList = entry.getValue();
                     Thread locationThread = new Thread(() -> {
-                        for (Animal animal : animalList) {
-                            animal.eat(animalList, animal);
-                        }
+                         for (Animal animal : animalList) {
+                          Animal.eat(animalList, animal);
+                          }
                     });
                     locationThread.start();
                     locationThread.join();
@@ -32,7 +29,6 @@ public class Service {
             }
         }
     }
-
     public void moveAnimals() {
         for (int i = 0; i < 100; i++) {
             for (int j = 0; j < 20; j++) {
@@ -50,44 +46,32 @@ public class Service {
                         if (newY >= 20) newY = 20 - 1;
                         int nextX = newX;
                         int nextY = newY;
-                        Location newLocation = map[newX][newY];
-                        if (newLocation.isFree()) {
+
+                        Location newLocation = map[nextX][nextY];
+                        newLocation.setX(nextX);
+                        newLocation.setY(nextY);
+                    if (newLocation.isFree(newLocation.getAnimalMap())) {
                             animal.moveTo(nextX, nextY, animal);
-                            currentLocation.removeAnimal(currentLocation.animalMap);
+                            animalList.remove(animal);
                             newLocation.addAnimal(newLocation.animalMap);
                             System.out.println(currentLocation);
                             System.out.println(newLocation);
                         }
                     }
                 }
-
-
             }
         }
     }
-    public  void reproduce() throws InterruptedException {
-        Location currentLocation = new Location();
-        Thread locationThread = new Thread(() -> {
-
-          /*  reproduce();///////
-        }
-            for (Map.Entry<Type, CopyOnWriteArrayList<Animal>> entry : currentLocation.animalMap.entrySet()) {
-                CopyOnWriteArrayList<Animal> animalList = entry.getValue();
-                for (Animal animal : animalList) {
-                    for (Animal animal : animalList) {
-                        if (animal.getType() == animalType) {
-                            animalsOfType.add(animal);
-                        }
-                    }*/
-            });
-            locationThread.start();
-            locationThread.join();
+    public void multiplyAnimals() {
 
     }
-    public Location[][] getMap() {
-        return map;
-    }
 
+    @Override
+    public String toString() {
+        return "Service{" +
+                "map=" + Arrays.toString(map) +
+                '}';
+    }
 }
 
 

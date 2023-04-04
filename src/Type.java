@@ -4,45 +4,26 @@ import lombok.Setter;
 import java.util.HashMap;
 import java.util.Map;
 
-
 public enum Type {
-    WOLF (50,8,50,3,30,'W',
-            new HashMap<Type, Integer>(){{ put(Type.WOLF, 0); }{ put(Type.FOX, 0); }{ put(Type.SHEEP, 70); }{ put(Type.HORSE, 10); }{ put(Type.BEAR, 0); }}),
-    FOX(50,8,8,2,30,'F',
-            new HashMap<Type, Integer>(){{ put(Type.WOLF, 0); }{ put(Type.FOX, 0); }{ put(Type.SHEEP, 0); }{ put(Type.HORSE, 0); { put(Type.BEAR, 0); }}}),
-    SHEEP(50,8,70,3,30,'S',
-            new HashMap<Type, Integer>(){{ put(Type.WOLF, 0); }{ put(Type.FOX, 0); }{ put(Type.SHEEP, 0); }{ put(Type.HORSE, 0); }{ put(Type.BEAR, 0); }}),
-    HORSE(50,8,400,4,30,'H',
-            new HashMap<Type, Integer>(){{ put(Type.WOLF, 0); }{ put(Type.FOX, 0); }{ put(Type.SHEEP, 0); }{ put(Type.HORSE, 0); }{ put(Type.BEAR, 0); }}),
-    BEAR(50,80,500,2,3,'B',
-            new HashMap<Type, Integer>(){{ put(Type.WOLF, 0); }{ put(Type.FOX, 0); }{ put(Type.SHEEP, 70); }{ put(Type.HORSE, 40); }{ put(Type.BEAR, 0); }});
+    WOLF (8,50,3,30,'W'),
+    FOX(2,8,2,30,'F'),
+    SHEEP(15,70,3,30,'S'),
+    HORSE(60,400,4,30,'H'),
+    BEAR(80,500,2,3,'B');
 
-    private int energy; // уровень энергии животного
-    private int maxEnergy; // Сколько килограммов пищи нужно животному для полного насыщения
-    private int weight; // вес животного
-    private int speed; // не более чем, клеток за ход
-    private int maxPerCell; // максимальное количество животных этого вида на одной клетке
-    private char picture; // як виглядає
+    private int maxEnergy;
+    private int weight;
+    private int speed;
+    private int maxPerCell;
+    private char picture;
+    private Map<Type, Integer> ration;
 
-    Map<Type, Integer> ration;
-    // данні з таблиці насищення
-    Type(int energy, int maxEnergy, int weight, int speed, int maxPerCell, char picture, Map<Type, Integer> ration) {
-
-        this.energy = energy;
+    Type(int maxEnergy, int weight, int speed, int maxPerCell, char picture) {
         this.maxEnergy = maxEnergy;
         this.weight = weight;
         this.speed = speed;
         this.maxPerCell = maxPerCell;
         this.picture = picture;
-        this.ration = ration;
-        }
-
-    public int getEnergy() {
-        return energy;
-    }
-
-    public void setEnergy(int energy) {
-        this.energy = energy;
     }
 
     public int getMaxEnergy() {
@@ -86,6 +67,10 @@ public enum Type {
     }
 
     public Map<Type, Integer> getRation() {
+        if (ration == null){
+            ration = PosFactory.ration(this);
+        }
+
         return ration;
     }
 
