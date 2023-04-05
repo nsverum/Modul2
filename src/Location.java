@@ -44,6 +44,9 @@ public class Location {
                 case HORSE -> new Horse(getX(), getY(), numAnimals, 50, true, "?", Type.HORSE);
                 case BEAR -> new Bear(getX(), getY(), numAnimals, 50, true, "?",Type.SHEEP);
                 case FOX -> new Fox(getX(), getY(), numAnimals, 50, true, "?",Type.FOX);
+                case MOUSE -> new Mouse(getX(), getY(), numAnimals, 50, true, "?",Type.MOUSE);
+                case RABBIT -> new Rabbit(getX(), getY(), numAnimals, 50, true, "?",Type.RABBIT);
+
             };
             if (animalList != null){
                 entry.getValue().add(newAnimal);

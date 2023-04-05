@@ -5,7 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Reproduce implements Callable<Animal> {
-   private final ConcurrentHashMap<Type, CopyOnWriteArrayList<Animal>> animalMap;
+    private final ConcurrentHashMap<Type, CopyOnWriteArrayList<Animal>> animalMap;
 
     public Reproduce(ConcurrentHashMap<Type, CopyOnWriteArrayList<Animal>> animalMap) {
         this.animalMap = animalMap;
@@ -14,39 +14,31 @@ public class Reproduce implements Callable<Animal> {
 
     @Override
     public Animal call() throws Exception {
-        for (int i = 0; i < 100; i++) {
-            for (int j = 0; j < 20; j++) {
-                Location currentLocation = new Location();
+        Location location = new Location();
+        for (Map.Entry<Type, CopyOnWriteArrayList<Animal>> entry : location.animalMap.entrySet()) {
+            Type animalType = entry.getKey();
+            List<Animal> animalList = entry.getValue();
+            for (Animal animal : animalList) {
             }
-                for (Map.Entry<Type, CopyOnWriteArrayList<Animal>> entry : currentLocation.animalMap.entrySet()) {
-                    Type animalType = entry.getKey();
-                    List<Animal> animalList = entry.getValue();
-                    for (Animal animal : animalList) {
+            Animal parent1 = null;
+            Animal parent2 = null;
+            if (animalList.size() >= 2) {
+                parent1 = animalList.get(0);
+                parent2 = animalList.get(1);
+                if (parent1 == null || parent2 == null) {
+                    System.out.println("Недостатня кількість тварин для розмноження.");
+                    return null;
+                }
+          //  return breed(parent1, parent2);
 
-                    }
 
-        if (!parent1.canBreedWith(parent2)) {
-            System.out.println("Ці тварини не можуть розмножуватися.");
-            return null;
+            }
+
         }
 
-        // створюємо нову тварину на основі батьків
-        String name = parent1.getName() + "-" + parent2.getName();
-        String species = parent1.getSpecies();
-        int age = 0;
-        double weight = parent1.getWeight() * 0.5 + parent2.getWeight() * 0.5;
-        String gender = Math.random() < 0.5 ? parent1.getGender() : parent2.getGender();
 
-        Animal baby = new Animal(int x, int y, int number, int energy, boolean isAlive, String gender, Type type);
-        System.out.println("Нова тварина народилася: " + baby.getName());
-
-        // повертаємо нову тварину
-        return baby;
-
-    }
-
-    @Override
-    public Animal call() throws Exception {
         return null;
     }
+
+
 }

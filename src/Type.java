@@ -9,16 +9,20 @@ public enum Type {
     FOX(2,8,2,30,'F'),
     SHEEP(15,70,3,30,'S'),
     HORSE(60,400,4,30,'H'),
+    MOUSE(0.01,0.05,1,500,'M'),
+    RABBIT(0.45,2,2,150,'R'),
+
     BEAR(80,500,2,3,'B');
 
-    private int maxEnergy;
-    private int weight;
+
+    private double maxEnergy;
+    private double weight;
     private int speed;
     private int maxPerCell;
     private char picture;
     private Map<Type, Integer> ration;
 
-    Type(int maxEnergy, int weight, int speed, int maxPerCell, char picture) {
+    Type(double maxEnergy, double weight, int speed, int maxPerCell, char picture) {
         this.maxEnergy = maxEnergy;
         this.weight = weight;
         this.speed = speed;
@@ -26,7 +30,7 @@ public enum Type {
         this.picture = picture;
     }
 
-    public int getMaxEnergy() {
+    public double getMaxEnergy() {
         return maxEnergy;
     }
 
@@ -34,7 +38,7 @@ public enum Type {
         this.maxEnergy = maxEnergy;
     }
 
-    public int getWeight() {
+    public double getWeight() {
         return weight;
     }
 

@@ -2,8 +2,13 @@ import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Service {
+    int width;
+    int height;
     private final Location[][] map;
+
     public Service(int width, int height) {
+        this.width = width;
+        this.height = height;
         this.map = new Location[width][height];
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
@@ -12,23 +17,45 @@ public class Service {
             }
         }
     }
-    public  void iterate() throws InterruptedException {
-        for (int i = 0; i < 100; i++) {
-            for (int j = 0; j < 20; j++) {
-               Location currentLocation = map[i][j];
-                for (Map.Entry<Type, CopyOnWriteArrayList<Animal>> entry : currentLocation.animalMap.entrySet()) {
-                    CopyOnWriteArrayList<Animal> animalList = entry.getValue();
-                    Thread locationThread = new Thread(() -> {
-                         for (Animal animal : animalList) {
-                          Animal.eat(animalList, animal);
-                          }
-                    });
-                    locationThread.start();
-                    locationThread.join();
+
+    public void iterate() throws InterruptedException {
+        Thread locationThread = new Thread(() -> {
+            for (int i = 0; i < 100; i++) {
+                for (int j = 0; j < 20; j++) {
+                    Location currentLocation = map[i][j];
+
+                    List<Animal> predators = new ArrayList<>();
+                    List<Animal> herbivores = new ArrayList<>();
+
+                    for (Map.Entry<Type, CopyOnWriteArrayList<Animal>> entry : currentLocation.animalMap.entrySet()) {
+                        CopyOnWriteArrayList<Animal> animalList = entry.getValue();
+
+                        for (Animal animal : animalList) {
+                            if (animal.getClass().isAnnotationPresent(Predators.class)) {
+                                predators.add(animal);
+                            } else if (animal.getClass().isAnnotationPresent(Herbivore.class)) {
+                                herbivores.add(animal);
+                            }
+                        }
+                        for (Animal predator : predators) {
+                            predator.eatPredators(herbivores, predator);
+                        }
+                        for (Animal herbivore : herbivores) {
+                            herbivore.eatHerbivores(herbivores, herbivore);
+                        }
+                        animalList.clear();
+                        animalList.addAll(predators);
+                        animalList.addAll(herbivores);
+                    }
                 }
             }
-        }
+
+        });
+        locationThread.start();
+        locationThread.join();
+
     }
+
     public void moveAnimals() {
         for (int i = 0; i < 100; i++) {
             for (int j = 0; j < 20; j++) {
@@ -50,7 +77,7 @@ public class Service {
                         Location newLocation = map[nextX][nextY];
                         newLocation.setX(nextX);
                         newLocation.setY(nextY);
-                    if (newLocation.isFree(newLocation.getAnimalMap())) {
+                        if (newLocation.isFree(newLocation.getAnimalMap())) {
                             animal.moveTo(nextX, nextY, animal);
                             animalList.remove(animal);
                             newLocation.addAnimal(newLocation.animalMap);
@@ -62,6 +89,7 @@ public class Service {
             }
         }
     }
+
     public void multiplyAnimals() {
 
     }
@@ -69,7 +97,9 @@ public class Service {
     @Override
     public String toString() {
         return "Service{" +
-                "map=" + Arrays.toString(map) +
+                "width=" + width +
+                ", height=" + height +
+                ", map=" + Arrays.toString(map) +
                 '}';
     }
 }

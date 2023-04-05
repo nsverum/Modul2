@@ -19,11 +19,40 @@ public class PosFactory {
            case HORSE -> {
                return getHorsePos();
            }
+           case MOUSE -> {
+               return getMousePos();
+           }
+           case RABBIT -> {
+               return getRabbitPos();
+           }
+
+
            default -> {
                return null;
            }
-
        }
+    }
+    private static Map<Type, Integer> getRabbitPos() {
+        Map<Type, Integer> ration = new HashMap<>();
+        ration.put(Type.WOLF, 0);
+        ration.put(Type.FOX, 0);
+        ration.put(Type.SHEEP, 0);
+        ration.put(Type.HORSE, 0);
+        ration.put(Type.BEAR, 0);
+        ration.put(Type.MOUSE, 0);
+        ration.put(Type.RABBIT, 0);
+        return ration;
+    }
+    private static Map<Type, Integer> getMousePos() {
+        Map<Type, Integer> ration = new HashMap<>();
+        ration.put(Type.WOLF, 0);
+        ration.put(Type.FOX, 0);
+        ration.put(Type.SHEEP, 70);
+        ration.put(Type.HORSE, 10);
+        ration.put(Type.BEAR, 0);
+        ration.put(Type.MOUSE, 0);
+        ration.put(Type.RABBIT, 0);
+        return ration;
     }
     private static Map<Type, Integer> getWolfPos() {
         Map<Type, Integer> ration = new HashMap<>();
@@ -32,6 +61,8 @@ public class PosFactory {
         ration.put(Type.SHEEP, 70);
         ration.put(Type.HORSE, 10);
         ration.put(Type.BEAR, 0);
+        ration.put(Type.MOUSE, 80);
+        ration.put(Type.RABBIT, 60);
         return ration;
     }
     private static  Map<Type, Integer> getBearPos(){
@@ -41,6 +72,8 @@ public class PosFactory {
         ration.put(Type.SHEEP, 70);
         ration.put(Type.HORSE, 70);
         ration.put(Type.BEAR, 0);
+        ration.put(Type.MOUSE, 90);
+        ration.put(Type.RABBIT, 80);
         return ration;
     }
     private static  Map<Type, Integer> getFoxPos(){
@@ -50,6 +83,8 @@ public class PosFactory {
         ration.put(Type.SHEEP, 0);
         ration.put(Type.HORSE, 0);
         ration.put(Type.BEAR, 0);
+        ration.put(Type.MOUSE, 90);
+        ration.put(Type.RABBIT, 70);
         return ration;
     }
     private static  Map<Type, Integer> getSheepPos(){
@@ -59,6 +94,8 @@ public class PosFactory {
         ration.put(Type.SHEEP, 0);
         ration.put(Type.HORSE, 0);
         ration.put(Type.BEAR, 0);
+        ration.put(Type.MOUSE, 0);
+        ration.put(Type.RABBIT, 0);
         return ration;
     }
     private static  Map<Type, Integer> getHorsePos(){
@@ -68,6 +105,8 @@ public class PosFactory {
         ration.put(Type.SHEEP, 0);
         ration.put(Type.HORSE, 0);
         ration.put(Type.BEAR, 0);
+        ration.put(Type.MOUSE, 0);
+        ration.put(Type.RABBIT, 0);
         return ration;
     }
 }
