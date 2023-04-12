@@ -13,15 +13,15 @@ public abstract class Animal {
     private int number;
     private int energy;
     private boolean isAlive;
-    private String gender;
+    private Gender gender;
 
-    public Animal(int x, int y, int number, int energy, boolean isAlive, String gender, Type type) {
+    public Animal(int x, int y, int number, int energy, boolean isAlive, Type type) {
         this.x = x;
         this.y = y;
         this.number = number;
         this.energy = energy;
         this.isAlive = isAlive;
-        this.gender = gender;
+        this.gender = Gender.randomGender();
         this.type = type;
     }
 
@@ -39,8 +39,9 @@ public abstract class Animal {
                 if(bestTypeForEat > maxValueFromRation){
                     maxValueFromRation = bestTypeForEat;
                     iterator.remove();
+                    predator.setEnergy((int) (predator.getEnergy() + herbivore.getType().getWeight()));
                     System.out.println(herbivore.getType() + " was eaten" +  " by " + predator.getType());
-                  //  predator.setEnergy((int) (predator.getEnergy() + herbivoreToEat.getType().getWeight()));
+
                 }
             }
         }
@@ -52,6 +53,7 @@ public abstract class Animal {
             if (herbivore.getEnergy() < 0) {
                 herbivores.remove(herbivore);
             }
+          //
             System.out.println("HerbivoreAnimal " + herbivore.getType() + " eats grass");
         }
     }
@@ -60,30 +62,12 @@ public abstract class Animal {
         return animal.getEnergy() < animal.getType().getMaxEnergy();
     }
 
-    public void reproduce(Map<Type, List<Animal>> animals) {
-        for (Map.Entry<Type, List<Animal>> entry : animals.entrySet()) {
-            List<Animal> animalList = entry.getValue();
-        }
+     public void moveTo(int nextX, int nextY, Animal animal) {
+        this.x = nextX;
+        this.y = nextY;
+       // System.out.println("new Location "+ animal.getType() + " " + nextX + " "+ nextY);
     }
 
-    public void moveTo(int newX, int newY, Animal animal) {
-        this.x = newX;
-        this.y = newY;
-        this.energy--;
-        if (this.energy <= 0) {
-            this.isAlive = false;
-        }
-        System.out.println(animal);
-        System.out.println(getX() + " " + getY());
-    }
-
-    public void canDie(Animal animal) {
-        if (animal.getClass().isAnnotationPresent(Predators.class)) {
-            System.out.println("Помер від голоду");
-        } else if (animal.getClass().isAnnotationPresent(Herbivore.class)) {
-            System.out.println("Помер від голоду або його з'їли");
-        }
-    }
 
     public Type getType() {
         return type;

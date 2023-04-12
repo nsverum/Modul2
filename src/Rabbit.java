@@ -1,6 +1,6 @@
 @Herbivore
 public class Rabbit extends Animal{
-    public Rabbit(int x, int y, int number, int energy, boolean isAlive, String gender, Type type) {
-        super(x, y, number, energy, isAlive, gender, type);
+    public Rabbit(int x, int y, int number, int energy, boolean isAlive, Type type) {
+        super(x, y, number, energy, isAlive, type);
     }
 }

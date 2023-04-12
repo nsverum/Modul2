@@ -1,5 +1,5 @@
 import java.util.*;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.*;
 
 public class Service {
     int width;
@@ -19,17 +19,15 @@ public class Service {
     }
 
     public void iterate() throws InterruptedException {
-        Thread locationThread = new Thread(() -> {
-            for (int i = 0; i < 100; i++) {
-                for (int j = 0; j < 20; j++) {
-                    Location currentLocation = map[i][j];
-
-                    List<Animal> predators = new ArrayList<>();
-                    List<Animal> herbivores = new ArrayList<>();
-
-                    for (Map.Entry<Type, CopyOnWriteArrayList<Animal>> entry : currentLocation.animalMap.entrySet()) {
-                        CopyOnWriteArrayList<Animal> animalList = entry.getValue();
-
+        //Thread locationThread = new Thread(() -> {
+        for (int i = 0; i < 100; i++) {
+            for (int j = 0; j < 20; j++) {
+                Location currentLocation = map[i][j];
+                List<Animal> predators = new ArrayList<>();
+                List<Animal> herbivores = new ArrayList<>();
+                for (Map.Entry<Type, CopyOnWriteArrayList<Animal>> entry : currentLocation.animalMap.entrySet()) {
+                    CopyOnWriteArrayList<Animal> animalList = entry.getValue();
+                    Thread locationThread = new Thread(() -> {
                         for (Animal animal : animalList) {
                             if (animal.getClass().isAnnotationPresent(Predators.class)) {
                                 predators.add(animal);
@@ -46,14 +44,14 @@ public class Service {
                         animalList.clear();
                         animalList.addAll(predators);
                         animalList.addAll(herbivores);
-                    }
+                    });
+                    locationThread.start();
+                    locationThread.join();
+                    //  System.out.println("Before moved" + currentLocation);
                 }
             }
-
-        });
-        locationThread.start();
-        locationThread.join();
-
+            //  });
+        }
     }
 
     public void moveAnimals() {
@@ -73,16 +71,12 @@ public class Service {
                         if (newY >= 20) newY = 20 - 1;
                         int nextX = newX;
                         int nextY = newY;
-
-                        Location newLocation = map[nextX][nextY];
-                        newLocation.setX(nextX);
-                        newLocation.setY(nextY);
-                        if (newLocation.isFree(newLocation.getAnimalMap())) {
+                        Location newLocation = map[newX][newY];
+                        if (newLocation.isFree()) {
+                            //System.out.println("old Location "+  animal.getType() + " "+  animal.getX() + " "+ animal.getX());
                             animal.moveTo(nextX, nextY, animal);
-                            animalList.remove(animal);
-                            newLocation.addAnimal(newLocation.animalMap);
-                            System.out.println(currentLocation);
-                            System.out.println(newLocation);
+                            currentLocation.removeAnimal(animal);
+                            newLocation.addAnimal(animal);
                         }
                     }
                 }
@@ -90,9 +84,39 @@ public class Service {
         }
     }
 
-    public void multiplyAnimals() {
-
+    public void breedAnimals() throws InterruptedException, ExecutionException {
+        ExecutorService executorService = Executors.newFixedThreadPool(10);
+        List<Future<?>> futures = new ArrayList<>();
+        for (int i = 0; i < 100; i++) {
+            for (int j = 0; j < 20; j++) {
+                Location currentLocation = map[i][j];
+                for (Map.Entry<Type, CopyOnWriteArrayList<Animal>> entry : currentLocation.animalMap.entrySet()) {
+                    CopyOnWriteArrayList<Animal> animalList = entry.getValue();
+                    Future<?> future = executorService.submit(() -> {
+                        for (int k = 0; k < animalList.size(); k += 2) {
+                            Animal firstAnimal = animalList.get(k);
+                            Animal secondAnimal = k + 1 < animalList.size() ? animalList.get(k + 1) : null;
+                            if (((firstAnimal != null) && (secondAnimal != null)
+                                    && (firstAnimal.getGender() != secondAnimal.getGender()))) {
+                                Type animalType = firstAnimal.getType();
+                                if (currentLocation.isFree()) {
+                                    Animal newAnimal = currentLocation.addNewAnimal(animalType, firstAnimal.getX(), firstAnimal.getY());
+                                    currentLocation.addAnimal(newAnimal);
+                                   // System.out.println("new Animal " + animalType + " bred from " + secondAnimal.getType());
+                                }
+                            }
+                        }
+                    });
+                    futures.add(future);
+                }
+            }
+        }
+        for (Future<?> future : futures) {
+            future.get();
+        }
+        executorService.shutdown();
     }
+
 
     @Override
     public String toString() {

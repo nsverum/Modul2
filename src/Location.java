@@ -35,25 +35,19 @@ public class Location {
    }
 
 
-   public void addAnimal(Map<Type, CopyOnWriteArrayList<Animal>> animalMap) {
-        for (Map.Entry<Type, CopyOnWriteArrayList<Animal>> entry : animalMap.entrySet()) {
-            List<Animal> animalList = entry.getValue();
-            Animal newAnimal = switch (entry.getKey()) {
-                case WOLF -> new Wolf(getX(), getY(), numAnimals, 50, true, "?", Type.WOLF);
-                case SHEEP -> new Sheep(getX(), getY(), numAnimals, 50, true, "?", Type.SHEEP);
-                case HORSE -> new Horse(getX(), getY(), numAnimals, 50, true, "?", Type.HORSE);
-                case BEAR -> new Bear(getX(), getY(), numAnimals, 50, true, "?",Type.SHEEP);
-                case FOX -> new Fox(getX(), getY(), numAnimals, 50, true, "?",Type.FOX);
-                case MOUSE -> new Mouse(getX(), getY(), numAnimals, 50, true, "?",Type.MOUSE);
-                case RABBIT -> new Rabbit(getX(), getY(), numAnimals, 50, true, "?",Type.RABBIT);
-
+   public Animal addNewAnimal(Type type, int x, int y) {
+            Animal newAnimal = switch (type) {
+                case WOLF -> new Wolf(x, y, numAnimals, 50, true,  Type.WOLF);
+                case SHEEP -> new Sheep(x, y, numAnimals, 50, true,  Type.SHEEP);
+                case HORSE -> new Horse(x, y, numAnimals, 50, true, Type.HORSE);
+                case BEAR -> new Bear(x, y, numAnimals, 50, true, Type.SHEEP);
+                case FOX -> new Fox(x, y, numAnimals, 50, true, Type.FOX);
+                case MOUSE -> new Mouse(x, y, numAnimals, 50, true, Type.MOUSE);
+                case RABBIT -> new Rabbit(x, y, numAnimals, 50, true, Type.RABBIT);
             };
-            if (animalList != null){
-                entry.getValue().add(newAnimal);
-            }
-        }
-    }
-    public boolean isFree(Map<Type, CopyOnWriteArrayList<Animal>> animalMap) {
+            return newAnimal;
+   }
+    public boolean isFree() {
         for (Map.Entry<Type, CopyOnWriteArrayList<Animal>> entry : animalMap.entrySet()) {
             Type animalType = entry.getKey();
             List<Animal> animalList = entry.getValue();
@@ -63,4 +57,11 @@ public class Location {
         return false;
     }
 
+    public void removeAnimal(Animal animal) {
+        animalMap.get(animal.getType()).remove(animal);
+    }
+
+    public void addAnimal(Animal animal) {
+        animalMap.computeIfAbsent(animal.getType(), k -> new CopyOnWriteArrayList<>()).add(animal);
+    }
 }
