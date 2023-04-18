@@ -26,10 +26,6 @@ public abstract class Animal {
     }
 
     public void eatPredators(List<Animal> herbivores, Animal predator) {
-      /* Type bestTypeForEat = predator.getType().getRation().entrySet().stream().min(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-                .stream().findFirst()
-                .map(Map.Entry::getKey)
-                .orElse(null);*/
         if (predator.isHungry(predator)) {
             int maxValueFromRation = 1;
             Iterator<Animal> iterator = herbivores.iterator();
@@ -40,7 +36,7 @@ public abstract class Animal {
                     maxValueFromRation = bestTypeForEat;
                     iterator.remove();
                     predator.setEnergy((int) (predator.getEnergy() + herbivore.getType().getWeight()));
-                    System.out.println(herbivore.getType() + " was eaten" +  " by " + predator.getType());
+                   // System.out.println(herbivore.getType() + " was eaten" +  " by " + predator.getType());
 
                 }
             }
@@ -53,8 +49,7 @@ public abstract class Animal {
             if (herbivore.getEnergy() < 0) {
                 herbivores.remove(herbivore);
             }
-          //
-            System.out.println("HerbivoreAnimal " + herbivore.getType() + " eats grass");
+          //  System.out.println("HerbivoreAnimal " + herbivore.getType() + " eats grass");
         }
     }
 
@@ -65,7 +60,9 @@ public abstract class Animal {
      public void moveTo(int nextX, int nextY, Animal animal) {
         this.x = nextX;
         this.y = nextY;
-       // System.out.println("new Location "+ animal.getType() + " " + nextX + " "+ nextY);
+        animal.setX(x);
+        animal.setY(y);
+        //System.out.println("new Location "+ animal.getType() + " " + nextX + " "+ x);
     }
 
 

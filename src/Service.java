@@ -18,8 +18,7 @@ public class Service {
         }
     }
 
-    public void iterate() throws InterruptedException {
-        //Thread locationThread = new Thread(() -> {
+    public void eating() throws InterruptedException {
         for (int i = 0; i < 100; i++) {
             for (int j = 0; j < 20; j++) {
                 Location currentLocation = map[i][j];
@@ -47,7 +46,8 @@ public class Service {
                     });
                     locationThread.start();
                     locationThread.join();
-                    //  System.out.println("Before moved" + currentLocation);
+                    System.out.println("Before moved" + currentLocation);
+
                 }
             }
             //  });
@@ -72,16 +72,19 @@ public class Service {
                         int nextX = newX;
                         int nextY = newY;
                         Location newLocation = map[newX][newY];
-                        if (newLocation.isFree()) {
-                            //System.out.println("old Location "+  animal.getType() + " "+  animal.getX() + " "+ animal.getX());
+                        if (newLocation.isFree(newLocation, animal)) {
                             animal.moveTo(nextX, nextY, animal);
                             currentLocation.removeAnimal(animal);
-                            newLocation.addAnimal(animal);
+                            newLocation.addAnimal(newLocation, animal);
+                           // System.out.println("new Location "+  animal.getType() + " "+  animal.getX() + " "+ animal.getX());
+                            System.out.println("After moved" + currentLocation);
+
                         }
                     }
                 }
             }
         }
+
     }
 
     public void breedAnimals() throws InterruptedException, ExecutionException {
@@ -99,10 +102,10 @@ public class Service {
                             if (((firstAnimal != null) && (secondAnimal != null)
                                     && (firstAnimal.getGender() != secondAnimal.getGender()))) {
                                 Type animalType = firstAnimal.getType();
-                                if (currentLocation.isFree()) {
+                                if (currentLocation.isFree(currentLocation, firstAnimal)) {
                                     Animal newAnimal = currentLocation.addNewAnimal(animalType, firstAnimal.getX(), firstAnimal.getY());
-                                    currentLocation.addAnimal(newAnimal);
-                                   // System.out.println("new Animal " + animalType + " bred from " + secondAnimal.getType());
+                                    currentLocation.addAnimal(currentLocation, newAnimal);
+                                   System.out.println("new Animal " + animalType + " bred from " + secondAnimal.getType());
                                 }
                             }
                         }
@@ -115,6 +118,7 @@ public class Service {
             future.get();
         }
         executorService.shutdown();
+
     }
 
 
@@ -125,6 +129,26 @@ public class Service {
                 ", height=" + height +
                 ", map=" + Arrays.toString(map) +
                 '}';
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public Location[][] getMap() {
+        return map;
     }
 }
 

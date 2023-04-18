@@ -47,21 +47,22 @@ public class Location {
             };
             return newAnimal;
    }
-    public boolean isFree() {
-        for (Map.Entry<Type, CopyOnWriteArrayList<Animal>> entry : animalMap.entrySet()) {
-            Type animalType = entry.getKey();
-            List<Animal> animalList = entry.getValue();
+    public boolean isFree(Location location, Animal animal) {
 
-            return animalList.size() <= animalType.getMaxPerCell();
-        }
-        return false;
+            return location.getAnimalMap().values().size() <= animal.getType().getMaxPerCell();
+
+
     }
 
     public void removeAnimal(Animal animal) {
         animalMap.get(animal.getType()).remove(animal);
     }
 
-    public void addAnimal(Animal animal) {
-        animalMap.computeIfAbsent(animal.getType(), k -> new CopyOnWriteArrayList<>()).add(animal);
+    public void addAnimal(Location location, Animal animal) {
+        for (Map.Entry<Type, CopyOnWriteArrayList<Animal>> entry : animalMap.entrySet()) {
+            List<Animal> animalList = entry.getValue();
+            animalList.add(animal);
+        }
+        //animalMap.computeIfAbsent(animal.getType(), k -> new CopyOnWriteArrayList<>()).add(animal);
     }
 }
