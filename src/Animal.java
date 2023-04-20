@@ -15,10 +15,7 @@ public abstract class Animal {
     private boolean isAlive;
     private Gender gender;
 
-    public Animal(int x, int y, int number, int energy, boolean isAlive, Type type) {
-        this.x = x;
-        this.y = y;
-        this.number = number;
+    public Animal(int energy, boolean isAlive, Type type) {
         this.energy = energy;
         this.isAlive = isAlive;
         this.gender = Gender.randomGender();
@@ -36,8 +33,7 @@ public abstract class Animal {
                     maxValueFromRation = bestTypeForEat;
                     iterator.remove();
                     predator.setEnergy((int) (predator.getEnergy() + herbivore.getType().getWeight()));
-                   // System.out.println(herbivore.getType() + " was eaten" +  " by " + predator.getType());
-
+                    // System.out.println(herbivore.getType() + " was eaten" +  " by " + predator.getType());
                 }
             }
         }
@@ -58,14 +54,9 @@ public abstract class Animal {
     }
 
      public void moveTo(int nextX, int nextY, Animal animal) {
-        this.x = nextX;
-        this.y = nextY;
-        animal.setX(x);
-        animal.setY(y);
-        //System.out.println("new Location "+ animal.getType() + " " + nextX + " "+ x);
+        animal.setX(nextX);
+        animal.setY(nextY);
     }
-
-
     public Type getType() {
         return type;
     }

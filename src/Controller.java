@@ -17,8 +17,8 @@ public class Controller {
 
     public void start() {
         service = new Service(100,20);
-        for (int i = 0; i < 2 && isRunning; i++){
-        //while (isRunning) {
+
+       while (isRunning) {
             executorService.execute(() -> {
                 try {
                     service.eating();

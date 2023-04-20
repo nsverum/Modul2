@@ -47,8 +47,8 @@ public class PosFactory {
         Map<Type, Integer> ration = new HashMap<>();
         ration.put(Type.WOLF, 0);
         ration.put(Type.FOX, 0);
-        ration.put(Type.SHEEP, 70);
-        ration.put(Type.HORSE, 10);
+        ration.put(Type.SHEEP, 0);
+        ration.put(Type.HORSE, 0);
         ration.put(Type.BEAR, 0);
         ration.put(Type.MOUSE, 0);
         ration.put(Type.RABBIT, 0);

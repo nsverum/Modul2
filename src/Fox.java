@@ -4,7 +4,7 @@ import java.util.List;
 public class Fox extends  Animal{
 
 
-    public Fox(int x, int y, int number, int energy, boolean isAlive,Type type) {
-        super(x, y, number, energy, isAlive, type);
+    public Fox( int energy, boolean isAlive,Type type) {
+        super( energy, isAlive, type);
     }
 }

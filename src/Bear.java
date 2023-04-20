@@ -4,7 +4,7 @@ import java.util.List;
 public class Bear extends Animal {
 
 
-    public Bear(int x, int y, int number, int energy, boolean isAlive, Type type) {
-        super(x, y, number, energy, isAlive, type);
+    public Bear(int energy, boolean isAlive, Type type) {
+        super(energy, isAlive, type);
     }
 }

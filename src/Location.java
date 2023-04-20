@@ -37,29 +37,30 @@ public class Location {
 
    public Animal addNewAnimal(Type type, int x, int y) {
             Animal newAnimal = switch (type) {
-                case WOLF -> new Wolf(x, y, numAnimals, 50, true,  Type.WOLF);
-                case SHEEP -> new Sheep(x, y, numAnimals, 50, true,  Type.SHEEP);
-                case HORSE -> new Horse(x, y, numAnimals, 50, true, Type.HORSE);
-                case BEAR -> new Bear(x, y, numAnimals, 50, true, Type.SHEEP);
-                case FOX -> new Fox(x, y, numAnimals, 50, true, Type.FOX);
-                case MOUSE -> new Mouse(x, y, numAnimals, 50, true, Type.MOUSE);
-                case RABBIT -> new Rabbit(x, y, numAnimals, 50, true, Type.RABBIT);
+                case WOLF -> new Wolf(50, true,  Type.WOLF);
+                case SHEEP -> new Sheep( 50, true,  Type.SHEEP);
+                case HORSE -> new Horse(50, true, Type.HORSE);
+                case BEAR -> new Bear( 50, true, Type.SHEEP);
+                case FOX -> new Fox(50, true, Type.FOX);
+                case MOUSE -> new Mouse(50, true, Type.MOUSE);
+                case RABBIT -> new Rabbit(50, true, Type.RABBIT);
             };
             return newAnimal;
    }
     public boolean isFree(Location location, Animal animal) {
-
-            return location.getAnimalMap().values().size() <= animal.getType().getMaxPerCell();
-
-
+        for (Map.Entry<Type, CopyOnWriteArrayList<Animal>> entry : location.getAnimalMap().entrySet()) {
+            List<Animal> animalList = entry.getValue();
+            return animalList.size() <= animal.getType().getMaxPerCell();
+        }
+        return false;
     }
 
-    public void removeAnimal(Animal animal) {
-        animalMap.get(animal.getType()).remove(animal);
+    public void removeAnimal(List<Animal> animalList, Animal animal) {
+        animalList.remove(animal);
     }
 
     public void addAnimal(Location location, Animal animal) {
-        for (Map.Entry<Type, CopyOnWriteArrayList<Animal>> entry : animalMap.entrySet()) {
+        for (Map.Entry<Type, CopyOnWriteArrayList<Animal>> entry : location.getAnimalMap().entrySet()) {
             List<Animal> animalList = entry.getValue();
             animalList.add(animal);
         }

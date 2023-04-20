@@ -5,9 +5,12 @@ import java.util.concurrent.*;
 public class Main {
 
     public static void main(String[] args) throws InterruptedException, ExecutionException {
+        Service field = new Service(100,20);
+        field.moveAnimals();
+
 
         Controller controller = new Controller();
-        controller.start();
+        //controller.start();
    }
 
 }

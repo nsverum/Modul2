@@ -13,11 +13,19 @@ public class Service {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 Location currentLocation = new Location();
+                currentLocation.setX(i);
+                currentLocation.setY(j);
                 map[i][j] = currentLocation;
+                for (Map.Entry<Type, CopyOnWriteArrayList<Animal>> entry : currentLocation.animalMap.entrySet()) {
+                    CopyOnWriteArrayList<Animal> animalList = entry.getValue();
+                    for (Animal animal : animalList) {
+                       animal.setX(i);
+                       animal.setY(j);
+                    }
+                }
             }
         }
     }
-
     public void eating() throws InterruptedException {
         for (int i = 0; i < 100; i++) {
             for (int j = 0; j < 20; j++) {
@@ -43,10 +51,12 @@ public class Service {
                         animalList.clear();
                         animalList.addAll(predators);
                         animalList.addAll(herbivores);
+                        System.out.println(animalList);
+
                     });
                     locationThread.start();
                     locationThread.join();
-                    System.out.println("Before moved" + currentLocation);
+                   // System.out.println(currentLocation);
 
                 }
             }
@@ -71,10 +81,10 @@ public class Service {
                         if (newY >= 20) newY = 20 - 1;
                         int nextX = newX;
                         int nextY = newY;
-                        Location newLocation = map[newX][newY];
+                        Location newLocation = map[nextX][nextY];
                         if (newLocation.isFree(newLocation, animal)) {
                             animal.moveTo(nextX, nextY, animal);
-                            currentLocation.removeAnimal(animal);
+                            currentLocation.removeAnimal(animalList, animal);
                             newLocation.addAnimal(newLocation, animal);
                            // System.out.println("new Location "+  animal.getType() + " "+  animal.getX() + " "+ animal.getX());
                             System.out.println("After moved" + currentLocation);
@@ -84,7 +94,6 @@ public class Service {
                 }
             }
         }
-
     }
 
     public void breedAnimals() throws InterruptedException, ExecutionException {
@@ -121,13 +130,10 @@ public class Service {
 
     }
 
-
     @Override
     public String toString() {
         return "Service{" +
-                "width=" + width +
-                ", height=" + height +
-                ", map=" + Arrays.toString(map) +
+                "map=" + Arrays.toString(map) +
                 '}';
     }
 
