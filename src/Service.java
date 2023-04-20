@@ -30,37 +30,13 @@ public class Service {
         for (int i = 0; i < 100; i++) {
             for (int j = 0; j < 20; j++) {
                 Location currentLocation = map[i][j];
-                List<Animal> predators = new ArrayList<>();
-                List<Animal> herbivores = new ArrayList<>();
                 for (Map.Entry<Type, CopyOnWriteArrayList<Animal>> entry : currentLocation.animalMap.entrySet()) {
                     CopyOnWriteArrayList<Animal> animalList = entry.getValue();
-                    Thread locationThread = new Thread(() -> {
                         for (Animal animal : animalList) {
-                            if (animal.getClass().isAnnotationPresent(Predators.class)) {
-                                predators.add(animal);
-                            } else if (animal.getClass().isAnnotationPresent(Herbivore.class)) {
-                                herbivores.add(animal);
-                            }
+                            animal.eat(currentLocation.animalMap);
                         }
-                        for (Animal predator : predators) {
-                            predator.eatPredators(herbivores, predator);
-                        }
-                        for (Animal herbivore : herbivores) {
-                            herbivore.eatHerbivores(herbivores, herbivore);
-                        }
-                        animalList.clear();
-                        animalList.addAll(predators);
-                        animalList.addAll(herbivores);
-                        System.out.println(animalList);
-
-                    });
-                    locationThread.start();
-                    locationThread.join();
-                   // System.out.println(currentLocation);
-
                 }
             }
-            //  });
         }
     }
 

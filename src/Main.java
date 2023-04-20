@@ -6,7 +6,8 @@ public class Main {
 
     public static void main(String[] args) throws InterruptedException, ExecutionException {
         Service field = new Service(100,20);
-        field.moveAnimals();
+        //field.moveAnimals();
+        field.eating();
 
 
         Controller controller = new Controller();

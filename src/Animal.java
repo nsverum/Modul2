@@ -1,7 +1,7 @@
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 @Getter
@@ -22,35 +22,9 @@ public abstract class Animal {
         this.type = type;
     }
 
-    public void eatPredators(List<Animal> herbivores, Animal predator) {
-        if (predator.isHungry(predator)) {
-            int maxValueFromRation = 1;
-            Iterator<Animal> iterator = herbivores.iterator();
-            while (iterator.hasNext()) {
-                Animal herbivore = iterator.next();
-                int bestTypeForEat = predator.getType().getRation().get(herbivore.getType());
-                if(bestTypeForEat > maxValueFromRation){
-                    maxValueFromRation = bestTypeForEat;
-                    iterator.remove();
-                    predator.setEnergy((int) (predator.getEnergy() + herbivore.getType().getWeight()));
-                    // System.out.println(herbivore.getType() + " was eaten" +  " by " + predator.getType());
-                }
-            }
-        }
-    }
-
-    public void eatHerbivores(List<Animal> herbivores, Animal herbivore) {
-        if (herbivore.isHungry(herbivore)) {
-            herbivore.setEnergy(herbivore.getEnergy()*2);
-            if (herbivore.getEnergy() < 0) {
-                herbivores.remove(herbivore);
-            }
-          //  System.out.println("HerbivoreAnimal " + herbivore.getType() + " eats grass");
-        }
-    }
-
-    boolean isHungry(Animal animal) {
-        return animal.getEnergy() < animal.getType().getMaxEnergy();
+    public abstract void eat(ConcurrentHashMap<Type, CopyOnWriteArrayList<Animal>> animalMap);
+    boolean isHungry() {
+        return getEnergy() < getType().getMaxEnergy();
     }
 
      public void moveTo(int nextX, int nextY, Animal animal) {
@@ -92,9 +66,9 @@ public abstract class Animal {
 
     @Override
     public String toString() {
-        return "Animal{" + getClass().toString() +
+        return "Animal from " + getClass().toString() +
                 ": x=" + x +
                 ", y=" + y +
-                '}';
+                ' ';
     }
 }
