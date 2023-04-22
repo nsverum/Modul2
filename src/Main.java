@@ -8,6 +8,11 @@ public class Main {
         Service field = new Service(100,20);
         //field.moveAnimals();
         field.eating();
+        Thread.sleep(3000);
+        field.breedAnimals();
+        Thread.sleep(3000);
+        field.moveAnimals();
+
 
 
         Controller controller = new Controller();

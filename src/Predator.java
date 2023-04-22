@@ -24,7 +24,7 @@ public abstract class Predator extends Animal {
             }
             if (bestForEat != null) {
                 setEnergy((int) (getEnergy() + bestForEat.getKey().getWeight()));
-                System.out.println("Predator " + this + "is eating " + bestForEat.getValue().get(0));
+                  System.out.println("Predator " + this + "is eating " + bestForEat.getValue().get(0));
                 bestForEat.getValue().remove(0);
             }
         }

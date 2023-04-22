@@ -38,6 +38,7 @@ public class Service {
                 }
             }
         }
+        System.out.println(map[0][0]);
     }
 
     public void moveAnimals() {
@@ -60,11 +61,9 @@ public class Service {
                         Location newLocation = map[nextX][nextY];
                         if (newLocation.isFree(newLocation, animal)) {
                             animal.moveTo(nextX, nextY, animal);
-                            currentLocation.removeAnimal(animalList, animal);
+                            currentLocation.removeAnimal(animalList);
                             newLocation.addAnimal(newLocation, animal);
-                           // System.out.println("new Location "+  animal.getType() + " "+  animal.getX() + " "+ animal.getX());
-                            System.out.println("After moved" + currentLocation);
-
+                            System.out.println(animal + " was moved from " + currentLocation.getX() + currentLocation.getY() + " to " + newLocation.getX() + currentLocation.getY());
                         }
                     }
                 }

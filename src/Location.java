@@ -48,22 +48,19 @@ public class Location {
             return newAnimal;
    }
     public boolean isFree(Location location, Animal animal) {
-        for (Map.Entry<Type, CopyOnWriteArrayList<Animal>> entry : location.getAnimalMap().entrySet()) {
-            List<Animal> animalList = entry.getValue();
-            return animalList.size() <= animal.getType().getMaxPerCell();
-        }
-        return false;
+        return location.getAnimalMap().get(animal.getType()) == null || location.getAnimalMap().get(animal.getType()).size() <= animal.getType().getMaxPerCell();
     }
 
-    public void removeAnimal(List<Animal> animalList, Animal animal) {
-        animalList.remove(animal);
+    public void removeAnimal(List<Animal> animalList) {
+        animalList.remove(0);
     }
 
     public void addAnimal(Location location, Animal animal) {
-        for (Map.Entry<Type, CopyOnWriteArrayList<Animal>> entry : location.getAnimalMap().entrySet()) {
-            List<Animal> animalList = entry.getValue();
-            animalList.add(animal);
+        CopyOnWriteArrayList<Animal> animalList = location.getAnimalMap().get(animal.getType());
+        if (animalList == null) {
+            animalList = new CopyOnWriteArrayList<>();
+            location.getAnimalMap().put(animal.getType(), animalList);
         }
-        //animalMap.computeIfAbsent(animal.getType(), k -> new CopyOnWriteArrayList<>()).add(animal);
+        animalList.add(animal);
     }
 }
