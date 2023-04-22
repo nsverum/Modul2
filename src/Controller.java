@@ -1,7 +1,3 @@
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -26,7 +22,7 @@ public class Controller {
                     throw new RuntimeException(e);
                 }
             });
-            executorService.execute(service::moveAnimals);
+            executorService.execute(service::choseDestination);
             executorService.execute(() -> {
                 try {
                     service.breedAnimals();

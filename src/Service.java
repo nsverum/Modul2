@@ -19,16 +19,15 @@ public class Service {
                 for (Map.Entry<Type, CopyOnWriteArrayList<Animal>> entry : currentLocation.animalMap.entrySet()) {
                     CopyOnWriteArrayList<Animal> animalList = entry.getValue();
                     for (Animal animal : animalList) {
-                       animal.setX(i);
-                       animal.setY(j);
+                        animal.setCurrentLocation(currentLocation);
                     }
                 }
             }
         }
     }
     public void eating() throws InterruptedException {
-        for (int i = 0; i < 100; i++) {
-            for (int j = 0; j < 20; j++) {
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
                 Location currentLocation = map[i][j];
                 for (Map.Entry<Type, CopyOnWriteArrayList<Animal>> entry : currentLocation.animalMap.entrySet()) {
                     CopyOnWriteArrayList<Animal> animalList = entry.getValue();
@@ -38,33 +37,43 @@ public class Service {
                 }
             }
         }
-        System.out.println(map[0][0]);
     }
 
-    public void moveAnimals() {
-        for (int i = 0; i < 100; i++) {
-            for (int j = 0; j < 20; j++) {
+    public void choseDestination() {
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
                 Location currentLocation = map[i][j];
                 for (Map.Entry<Type, CopyOnWriteArrayList<Animal>> entry : currentLocation.animalMap.entrySet()) {
                     Type animalType = entry.getKey();
                     List<Animal> animalList = entry.getValue();
                     for (Animal animal : animalList) {
                         int maxCells = animalType.getSpeed();
-                        int newX = animal.getX() + (int) (Math.random() * (maxCells * 2 + 1)) - maxCells;
-                        int newY = animal.getY() + (int) (Math.random() * (maxCells * 2 + 1)) - maxCells;
+                        int newX = animal.getCurrentLocation().getX() + (int) (Math.random() * (maxCells * 2 + 1)) - maxCells;
+                        int newY = animal.getCurrentLocation().getY() + (int) (Math.random() * (maxCells * 2 + 1)) - maxCells;
                         if (newX < 0) newX = 0;
                         if (newY < 0) newY = 0;
-                        if (newX >= 100) newX = 100 - 1;
-                        if (newY >= 20) newY = 20 - 1;
+                        if (newX >= width) newX = width - 1;
+                        if (newY >= height) newY = height - 1;
                         int nextX = newX;
                         int nextY = newY;
                         Location newLocation = map[nextX][nextY];
-                        if (newLocation.isFree(newLocation, animal)) {
-                            animal.moveTo(nextX, nextY, animal);
-                            currentLocation.removeAnimal(animalList);
-                            newLocation.addAnimal(newLocation, animal);
-                            System.out.println(animal + " was moved from " + currentLocation.getX() + currentLocation.getY() + " to " + newLocation.getX() + currentLocation.getY());
-                        }
+                        animal.setNewLocation(newLocation);
+                    }
+                }
+            }
+        }
+    }
+    public void moveAnimals(){
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                Location currentLocation = map[i][j];
+                for (Map.Entry<Type, CopyOnWriteArrayList<Animal>> entry : currentLocation.animalMap.entrySet()) {
+                    Type animalType = entry.getKey();
+                    List<Animal> animalList = entry.getValue();
+                    for (Animal animal : animalList) {
+                        System.out.println(animal + " will be moved from " + animal.getCurrentLocation().getX() +  " " + animal.getCurrentLocation().getY() +
+                                " to " + animal.getNewLocation().getX() +  " " +  animal.getNewLocation().getY());
+                        animal.move();
                     }
                 }
             }
@@ -74,8 +83,8 @@ public class Service {
     public void breedAnimals() throws InterruptedException, ExecutionException {
         ExecutorService executorService = Executors.newFixedThreadPool(10);
         List<Future<?>> futures = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
-            for (int j = 0; j < 20; j++) {
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
                 Location currentLocation = map[i][j];
                 for (Map.Entry<Type, CopyOnWriteArrayList<Animal>> entry : currentLocation.animalMap.entrySet()) {
                     CopyOnWriteArrayList<Animal> animalList = entry.getValue();
@@ -86,10 +95,11 @@ public class Service {
                             if (((firstAnimal != null) && (secondAnimal != null)
                                     && (firstAnimal.getGender() != secondAnimal.getGender()))) {
                                 Type animalType = firstAnimal.getType();
-                                if (currentLocation.isFree(currentLocation, firstAnimal)) {
-                                    Animal newAnimal = currentLocation.addNewAnimal(animalType, firstAnimal.getX(), firstAnimal.getY());
-                                    currentLocation.addAnimal(currentLocation, newAnimal);
-                                   System.out.println("new Animal " + animalType + " bred from " + secondAnimal.getType());
+                                if (currentLocation.isFree(firstAnimal)) {
+                                    Animal newAnimal = currentLocation.addNewAnimal(animalType);
+                                    currentLocation.addAnimal(newAnimal);
+                                    newAnimal.setCurrentLocation(currentLocation);
+                                    System.out.println("new Animal " + animalType + " bred from " + secondAnimal.getType());
                                 }
                             }
                         }

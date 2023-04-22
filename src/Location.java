@@ -35,7 +35,7 @@ public class Location {
    }
 
 
-   public Animal addNewAnimal(Type type, int x, int y) {
+   public Animal addNewAnimal(Type type) {
             Animal newAnimal = switch (type) {
                 case WOLF -> new Wolf(50, true,  Type.WOLF);
                 case SHEEP -> new Sheep( 50, true,  Type.SHEEP);
@@ -47,19 +47,23 @@ public class Location {
             };
             return newAnimal;
    }
-    public boolean isFree(Location location, Animal animal) {
-        return location.getAnimalMap().get(animal.getType()) == null || location.getAnimalMap().get(animal.getType()).size() <= animal.getType().getMaxPerCell();
+    public boolean isFree(Animal animal) {
+        return getAnimalMap().get(animal.getType()) == null
+            || getAnimalMap().get(animal.getType()).size() <= animal.getType().getMaxPerCell();
     }
 
-    public void removeAnimal(List<Animal> animalList) {
-        animalList.remove(0);
+    public void removeAnimal(Animal animal) {
+       var animals = getAnimalMap().get(animal.getType());
+       if (animals != null)
+           animals.remove(animal);
+
     }
 
-    public void addAnimal(Location location, Animal animal) {
-        CopyOnWriteArrayList<Animal> animalList = location.getAnimalMap().get(animal.getType());
+    public void addAnimal(Animal animal) {
+        CopyOnWriteArrayList<Animal> animalList = getAnimalMap().get(animal.getType());
         if (animalList == null) {
             animalList = new CopyOnWriteArrayList<>();
-            location.getAnimalMap().put(animal.getType(), animalList);
+            getAnimalMap().put(animal.getType(), animalList);
         }
         animalList.add(animal);
     }
