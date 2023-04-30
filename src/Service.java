@@ -58,6 +58,7 @@ public class Service {
                         int nextY = newY;
                         Location newLocation = map[nextX][nextY];
                         animal.setNewLocation(newLocation);
+
                     }
                 }
             }

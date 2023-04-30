@@ -7,22 +7,22 @@ public class Controller {
     private final ExecutorService executorService;
     private boolean isRunning = true;
 
-    public Controller() {
-        executorService = Executors.newFixedThreadPool(10);
+    public Controller(int width, int height,int numThreads ) {
+        executorService = Executors.newFixedThreadPool(numThreads);
+        service = new Service(width, height);
     }
 
     public void start() {
-        service = new Service(100,20);
 
        while (isRunning) {
-            executorService.execute(() -> {
-                try {
-                    service.eating();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            });
-            executorService.execute(service::choseDestination);
+
+           executorService.execute(() -> {
+               try {
+                   service.eating();
+               } catch (InterruptedException e) {
+                   throw new RuntimeException(e);
+               }
+           });
             executorService.execute(() -> {
                 try {
                     service.breedAnimals();
@@ -32,6 +32,8 @@ public class Controller {
                     throw new RuntimeException(e);
                 }
             });
+           executorService.execute(() -> service.choseDestination());
+           executorService.execute(() -> service.moveAnimals());
 
             try {
                 Thread.sleep(5000);
