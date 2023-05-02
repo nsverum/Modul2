@@ -4,50 +4,26 @@ import java.util.concurrent.Executors;
 
 public class Controller {
     public Service service;
-    private final ExecutorService executorService;
     private boolean isRunning = true;
 
     public Controller(int width, int height,int numThreads ) {
-        executorService = Executors.newFixedThreadPool(numThreads);
-        service = new Service(width, height);
+        service = new Service(width, height, numThreads);
     }
 
-    public void start() {
+    public void start() throws ExecutionException, InterruptedException {
+        for (int i = 0; i < 10; i++){
 
-       while (isRunning) {
+     // while (isRunning) {
+          service.eating();
+          service.breedAnimals();;
+          service.choseDestination();
+          service.moveAnimals();
+            System.out.println("End of iteration " + i);
+      }
 
-           executorService.execute(() -> {
-               try {
-                   service.eating();
-               } catch (InterruptedException e) {
-                   throw new RuntimeException(e);
-               }
-           });
-            executorService.execute(() -> {
-                try {
-                    service.breedAnimals();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                } catch (ExecutionException e) {
-                    throw new RuntimeException(e);
-                }
-            });
-           executorService.execute(() -> service.choseDestination());
-           executorService.execute(() -> service.moveAnimals());
-
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-           /* if (  ) {
-                stop();
-            }*/
-        }
     }
 
     public void stop() {
         isRunning = false;
-        executorService.shutdown();
     }
 }

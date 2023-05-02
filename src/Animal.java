@@ -31,7 +31,6 @@ public abstract class Animal {
             newLocation.addAnimal(this);
             currentLocation = newLocation;
         }
-       // newLocation = null;
     }
 
     public Type getType() {
