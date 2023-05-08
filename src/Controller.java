@@ -1,3 +1,4 @@
+import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -11,15 +12,20 @@ public class Controller {
     }
 
     public void start() throws ExecutionException, InterruptedException {
-        for (int i = 0; i < 10; i++){
 
-     // while (isRunning) {
-          service.eating();
-          service.breedAnimals();;
-          service.choseDestination();
-          service.moveAnimals();
-            System.out.println("End of iteration " + i);
-      }
+            for (int i = 0; i < 10; i++) {
+                System.out.println("  ");
+                System.out.println("Step " + i);
+                // while (isRunning) {
+                service.eating();
+                service.breedAnimals();
+                service.choseDestination();
+                service.moveAnimals();
+
+                Thread.sleep(2000);
+                 View.statistic(service);
+            }
+            service.close();
 
     }
 

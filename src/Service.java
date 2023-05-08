@@ -45,12 +45,16 @@ public class Service {
         for (Future<?> future : futures){
             future.get();
         }
+
     }
 
     public void eating() throws ExecutionException, InterruptedException {
         executeAction((animalList,currentLocation) -> {
             for (Animal animal : animalList) {
-                animal.eat(currentLocation.animalMap);
+                //animal.eat(currentLocation.animalMap);
+                animal.eat(currentLocation);
+                Random random =  new Random();
+                currentLocation.setPlantVolume(currentLocation.getPlantVolume() + random.nextInt(10));
             }
         });
     }
@@ -75,9 +79,10 @@ public class Service {
     public void moveAnimals() throws ExecutionException, InterruptedException {
        executeAction((animalList, currentLocation) ->{
            for (Animal animal : animalList) {
-               System.out.println(animal + " will be moved from " + animal.getCurrentLocation().getX() +  " " + animal.getCurrentLocation().getY() +
-                       " to " + animal.getNewLocation().getX() +  " " +  animal.getNewLocation().getY());
+//               System.out.println(animal + " will be moved from " + animal.getCurrentLocation().getX() +  " " + animal.getCurrentLocation().getY() +
+//                       " to " + animal.getNewLocation().getX() +  " " +  animal.getNewLocation().getY());
                animal.move();
+
            }
        });
     }
@@ -94,19 +99,21 @@ public class Service {
                                     Animal newAnimal = currentLocation.addNewAnimal(animalType);
                                     currentLocation.addAnimal(newAnimal);
                                     newAnimal.setCurrentLocation(currentLocation);
-                                    System.out.println("new Animal " + animalType + " bred from " + secondAnimal.getType());
+                                //    System.out.println("new Animal " + animalType + " bred from " + secondAnimal.getType());
                                 }
                             }
                         }
         });
     }
+    public void close() {
+        executorService.shutdown();
+    }
 
     @Override
     public String toString() {
-        return "Service{" +
-                "map=" + Arrays.toString(map) +
-                '}';
+        return getMap().toString();
     }
+
 
     public int getWidth() {
         return width;

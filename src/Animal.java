@@ -21,7 +21,7 @@ public abstract class Animal {
         this.type = type;
     }
 
-    public abstract void eat(ConcurrentHashMap<Type, CopyOnWriteArrayList<Animal>> animalMap);
+    public abstract void eat(Location location);
     boolean isHungry() {
         return getEnergy() < getType().getMaxEnergy();
     }
@@ -30,6 +30,7 @@ public abstract class Animal {
             currentLocation.removeAnimal(this);
             newLocation.addAnimal(this);
             currentLocation = newLocation;
+            setEnergy(getEnergy() - 1);
         }
     }
 

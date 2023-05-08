@@ -13,7 +13,7 @@ public class Location {
     private int y;
 
     int plantVolume;
-    int numAnimals;
+    int numAnimalsToDie;
     ConcurrentHashMap<Type, CopyOnWriteArrayList<Animal>> animalMap;
 
     public Location() {
@@ -23,14 +23,23 @@ public class Location {
     @Override
    public String toString() {
        StringBuilder sb = new StringBuilder();
-       sb.append("Location{");
-       sb.append("Кількість рослин =").append(plantVolume).append(", ");
-       sb.append("У цій локації такі тварини = {");
-       for (Map.Entry<Type, CopyOnWriteArrayList<Animal>> entry : animalMap.entrySet()) {
-           sb.append(entry.getKey()).append(": ").append(entry.getValue().size()).append(", ");
+        sb.append("____________________________________________________ " + "\n");
+
+        sb.append("Location with coordinates: "+ getX() + " " + getY() + "\n");
+       sb.append("Кількість рослин = ").append(plantVolume).append(", ");
+       sb.append("У цій локації такі тварини = ");
+
+        for (Map.Entry<Type, CopyOnWriteArrayList<Animal>> entry : animalMap.entrySet()) {
+           sb.append(entry.getKey()).append(": ").append(entry.getValue().size()).append("; ");
        }
-       sb.delete(sb.length() - 2, sb.length());
-       sb.append("}}");
+        sb.append("\n" + "Померло:  " + numAnimalsToDie);
+        sb.delete(sb.length() - 2, sb.length());
+
+
+
+
+
+        // sb.append("}}");
        return sb.toString();
    }
 
