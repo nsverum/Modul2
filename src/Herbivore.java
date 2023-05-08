@@ -17,7 +17,7 @@ public abstract class Herbivore extends Animal{
                 setAlive(false);
 
                 location.getAnimalMap().values().remove(this);
-               System.out.println("Herbivore " + this + " died"+ ", Кількість рослин = " + location.getPlantVolume());
+             //  System.out.println("Herbivore " + this + " died"+ ", Кількість рослин = " + location.getPlantVolume());
                 location.setNumAnimalsToDie(location.getNumAnimalsToDie() +1);
 
             }

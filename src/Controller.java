@@ -13,7 +13,7 @@ public class Controller {
 
     public void start() throws ExecutionException, InterruptedException {
 
-            for (int i = 0; i < 10; i++) {
+            for (int i = 1; i < 10; i++) {
                 System.out.println("  ");
                 System.out.println("Step " + i);
                 // while (isRunning) {
