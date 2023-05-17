@@ -37,13 +37,6 @@ public class Location {
         sb.append("\n" + "Померло:  " + numAnimalsToDie);
         sb.append("\n" + "Народилося:  " + numAnimalsToBreed);
 
-        //  sb.delete(sb.length() - 2, sb.length());
-
-
-
-
-
-        // sb.append("}}");
        return sb.toString();
    }
 
