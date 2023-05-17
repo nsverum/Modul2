@@ -53,9 +53,9 @@ public class Service {
             for (Animal animal : animalList) {
                 //animal.eat(currentLocation.animalMap);
                 animal.eat(currentLocation);
-                Random random =  new Random();
-                currentLocation.setPlantVolume(currentLocation.getPlantVolume() + random.nextInt(10));
             }
+            Random random =  new Random();
+            currentLocation.setPlantVolume(currentLocation.getPlantVolume() + random.nextInt(10));
         });
     }
 
@@ -82,7 +82,6 @@ public class Service {
 //               System.out.println(animal + " will be moved from " + animal.getCurrentLocation().getX() +  " " + animal.getCurrentLocation().getY() +
 //                       " to " + animal.getNewLocation().getX() +  " " +  animal.getNewLocation().getY());
                animal.move();
-
            }
        });
     }
@@ -99,6 +98,7 @@ public class Service {
                                     Animal newAnimal = currentLocation.addNewAnimal(animalType);
                                     currentLocation.addAnimal(newAnimal);
                                     newAnimal.setCurrentLocation(currentLocation);
+                                    currentLocation.setNumAnimalsToBreed(currentLocation.getNumAnimalsToBreed() + 1);
                                 //    System.out.println("new Animal " + animalType + " bred from " + secondAnimal.getType());
                                 }
                             }

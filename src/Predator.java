@@ -33,7 +33,9 @@ public abstract class Predator extends Animal {
             else if (getEnergy() < 0){
                 setAlive(false);
                 location.getAnimalMap().values().remove(this);
-               //  System.out.println("Predator " + this + " died of hunger " );
+                location.setNumAnimalsToDie(location.getNumAnimalsToDie() + 1);
+
+                //  System.out.println("Predator " + this + " died of hunger " );
 
             }
         }

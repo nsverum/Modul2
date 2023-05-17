@@ -30,7 +30,7 @@ public abstract class Animal {
             currentLocation.removeAnimal(this);
             newLocation.addAnimal(this);
             currentLocation = newLocation;
-            setEnergy(getEnergy() - 1);
+            setEnergy(getEnergy() - 10);
         }
     }
 

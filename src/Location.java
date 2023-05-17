@@ -12,8 +12,10 @@ public class Location {
     private int x;
     private int y;
 
-    int plantVolume;
-    int numAnimalsToDie;
+    private int plantVolume;
+    private int numAnimalsToDie;
+    private int numAnimalsToBreed;
+
     ConcurrentHashMap<Type, CopyOnWriteArrayList<Animal>> animalMap;
 
     public Location() {
@@ -33,7 +35,9 @@ public class Location {
            sb.append(entry.getKey()).append(": ").append(entry.getValue().size()).append("; ");
        }
         sb.append("\n" + "Померло:  " + numAnimalsToDie);
-        sb.delete(sb.length() - 2, sb.length());
+        sb.append("\n" + "Народилося:  " + numAnimalsToBreed);
+
+        //  sb.delete(sb.length() - 2, sb.length());
 
 
 
@@ -58,7 +62,7 @@ public class Location {
    }
     public boolean isFree(Animal animal) {
         return getAnimalMap().get(animal.getType()) == null
-            || getAnimalMap().get(animal.getType()).size() <= animal.getType().getMaxPerCell();
+            || getAnimalMap().get(animal.getType()).size() < animal.getType().getMaxPerCell();
     }
 
     public void removeAnimal(Animal animal) {

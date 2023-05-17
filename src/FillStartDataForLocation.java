@@ -7,7 +7,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class FillStartDataForLocation {
     public static void fillStartDataForLocation(Location location) {
         Random random = new Random();
-        location.setPlantVolume(random.nextInt(20));
+        location.setPlantVolume(random.nextInt(200));
         ConcurrentHashMap<Type, CopyOnWriteArrayList<Animal>> animalMap = new ConcurrentHashMap<>();
         for (int i = 0; i < 10; i++) {
             Type type = Type.values()[ThreadLocalRandom.current().nextInt(0, 7)];
