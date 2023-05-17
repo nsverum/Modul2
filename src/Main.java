@@ -13,10 +13,12 @@ public class Main {
 //            System.out.println("Введіть довжину поля: ");
 //            int height = scanner.nextInt();
 //            System.out.println("Починаємо:");
-//            Thread.sleep(1000);
-            Controller controller = new Controller(10, 5, 10);
+            Thread.sleep(1000);
+            Controller controller = new Controller(5, 5, 10);
             controller.start();
-        //}
+       // }
+//        Location location = new Location();
+//        System.out.println(location);
    }
 
 }

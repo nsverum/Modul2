@@ -12,7 +12,16 @@ public enum Type {
     MOUSE(0.01,0.05,1,500,'M'),
     RABBIT(0.45,2,2,15,'R'),
 
-    BEAR(80,500,2,3,'B');
+    BEAR(80,500,2,3,'B'),
+    SNAKE(3,15,1,30,'S'),
+    EAGLE(1,6,3,20,'E'),
+    DEER(50,300, 4, 20, 'D'),
+    GOAT(10,60,3,140,'G'),
+    BOAR(50,400,2,50,'B'),
+    BUFFALO(100, 700, 3,10,'B'),
+    DUCK(0.15, 1, 4,200,'D'),
+    CATERPILLAR(0,0.01,0,1000,'C');
+
 
 
     private double maxEnergy;
@@ -29,7 +38,13 @@ public enum Type {
         this.maxPerCell = maxPerCell;
         this.picture = picture;
     }
+    public Map<Type, Integer> getRation() {
+        if (ration == null){
+            ration = PosFactory.ration(this);
+        }
 
+        return ration;
+    }
     public double getMaxEnergy() {
         return maxEnergy;
     }
@@ -70,13 +85,7 @@ public enum Type {
         this.picture = picture;
     }
 
-    public Map<Type, Integer> getRation() {
-        if (ration == null){
-            ration = PosFactory.ration(this);
-        }
 
-        return ration;
-    }
 
     public void setRation(Map<Type, Integer> ration) {
         this.ration = ration;

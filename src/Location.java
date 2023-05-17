@@ -57,6 +57,15 @@ public class Location {
                 case FOX -> new Fox(50, true, Type.FOX);
                 case MOUSE -> new Mouse(50, true, Type.MOUSE);
                 case RABBIT -> new Rabbit(50, true, Type.RABBIT);
+                case SNAKE -> new Snake(50, true, Type.SNAKE);
+                case EAGLE -> new Eagle(50, true, Type.EAGLE);
+                case DEER -> new Deer(50, true, Type.DEER);
+                case GOAT -> new Goat(50, true, Type.GOAT);
+                case BOAR -> new Buffalo(50, true, Type.BUFFALO);
+                case BUFFALO -> new Buffalo(50, true, Type.BUFFALO);
+                case DUCK -> new Duck(50, true, Type.DUCK);
+                case CATERPILLAR -> new Caterpillar(50, true, Type.CATERPILLAR);
+
             };
             return newAnimal;
    }
